@@ -1,0 +1,10 @@
+Checking liquidai/lfm-2.5-audio-1.5b...
+FAILED: 404 Client Error. (Request ID: Root=1-69722fbe-2663792108f68c7060b7079c;75b1c6bf-999c-4e7f-a60d-302f7cc1830d)
+
+Repository Not Found for url: https://huggingface.co/api/models/liquidai/lfm-2.5-audio-1.5b.
+Please make sure you specified the correct `repo_id` and `repo_type`.
+If you are trying to access a private or gated repo, make sure you are authenticated. For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+Checking LiquidAI/LFM2.5-Audio-1.5B...
+SUCCESS! Found model: LiquidAI/LFM2.5-Audio-1.5B
+Private: False
+Gated: False

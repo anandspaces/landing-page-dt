@@ -1,0 +1,6 @@
+Dextora AI is an advanced AI mentorship platform designed for students from Class 1 to 12.
+It helps students prepare for competitive exams like IIT-JEE and NEET.
+Dextora provides personalized guidance, research-backed study methods, and 24/7 adaptive support.
+The platform uses smart contextual cues to monitor posture and engagement.
+Our mission is to democratize high-quality education and mentorship.
+We have competitors like Byjus and Unacademy but we focus more on personalized AI mentorship rather than just video lectures.

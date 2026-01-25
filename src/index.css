@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-charcoal text-offwhite antialiased;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background: #0b0f14;
+  }
+
+  body, button, input, textarea {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-8 py-4 rounded-full bg-gradient-to-r from-cyan to-violet text-black font-semibold tracking-tight transition-transform duration-300 hover:scale-105 shadow-[0_0_40px_rgba(79,209,255,0.25)];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-8 py-4 rounded-full border border-cyan/40 text-cyan font-semibold tracking-tight transition-colors duration-300 hover:bg-cyan/10;
+  }
+
+  .section-label {
+    @apply uppercase tracking-[0.24em] text-xs text-cyan/90 inline-flex items-center gap-3 font-semibold;
+  }
+
+  .logo-text {
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
+    @apply font-bold text-xl tracking-tighter bg-gradient-to-r from-cyan via-violet to-cyan bg-clip-text text-transparent;
+  }
+
+  .hero-title {
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
+    @apply font-extrabold tracking-tight;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  /* Additional hero typography used in components */
+  .hero-headline {
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-subheadline {
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-sub {
+    font-family: 'Inter', sans-serif;
+    @apply font-light tracking-wide;
+    letter-spacing: 0.5px;
+  }
+}
+
+@layer utilities {
+  .text-offwhite {
+    color: #e8edf5;
+  }
+
+  .noise-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+  }
+
+  /* Roadmap styling */
+  .roadmap-section {
+    scroll-behavior: smooth;
+  }
+
+  .milestone-card {
+    @apply transition-all duration-300;
+    /* Subtle glow on hover */
+    &:hover {
+      box-shadow: 0 0 40px rgba(79, 209, 255, 0.15);
+    }
+  }
+
+  .roadmap-orb {
+    /* Glow effect from hero aura aesthetic */
+    filter: drop-shadow(0 0 15px rgba(79, 209, 255, 0.8)) drop-shadow(0 0 8px rgba(124, 124, 255, 0.5));
+    animation: roadmap-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes roadmap-pulse {
+    0%, 100% {
+      filter: drop-shadow(0 0 15px rgba(79, 209, 255, 0.8)) drop-shadow(0 0 8px rgba(124, 124, 255, 0.5));
+    }
+    50% {
+      filter: drop-shadow(0 0 25px rgba(79, 209, 255, 1)) drop-shadow(0 0 12px rgba(124, 124, 255, 0.7));
+    }
+  }
+}
+
+/* Global gradient text treatment gets display font */
+.gradient-text {
+  font-family: 'IBM Plex Sans', 'Inter', sans-serif;
+}
+

@@ -1,0 +1,12 @@
+python-dotenv
+torch
+transformers
+numpy
+huggingface_hub
+chromadb
+sentence-transformers
+pydantic
+uvicorn
+fastapi
+edge-tts
+nest_asyncio
