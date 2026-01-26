@@ -1,0 +1,13 @@
+services:
+  backend:
+    build:
+      context: ./llm-service
+    ports:
+      - "9005:8000"
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+    volumes:
+      - ./llm-service/models:/app/models # Persist download models
+      - ./llm-service/chroma_db:/app/chroma_db # Persist vector DB
+      - ./dextora_100_questions_clean.csv:/app/dextora_100_questions_clean.csv # Mount dataset for access
+    restart: always

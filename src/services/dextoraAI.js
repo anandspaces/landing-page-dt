@@ -55,7 +55,7 @@ export const generateResponseStream = async (userText, onSentence, onComplete, o
 
   try {
     // Local LLM Service Endpoint
-    const LOCAL_API_URL = 'http://localhost:8000/chat';
+    const LOCAL_API_URL = `${import.meta.env.VITE_API_BASE_URL}/chat`;
 
     const response = await fetch(LOCAL_API_URL, {
       method: 'POST',

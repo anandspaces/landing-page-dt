@@ -6,7 +6,7 @@
 import { profiler } from '../utils/LatencyProfiler';
 
 let audioContext = null;
-const API_URL = "http://localhost:8000/tts";
+const API_URL = `${import.meta.env.VITE_API_BASE_URL}/tts`;
 
 // Initialize AudioContext
 export const initTTS = () => {

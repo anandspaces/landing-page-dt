@@ -1,6 +1,6 @@
 import { profiler } from '../utils/LatencyProfiler';
 
-const LLM_API_URL = "http://localhost:8000/chat";
+const LLM_API_URL = `${import.meta.env.VITE_API_BASE_URL}/chat`;
 
 export const generateResponse = async (userText) => {
     let fullText = "";
