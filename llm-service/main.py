@@ -8,32 +8,21 @@ from core.edge_service import EdgeTTSEngine
 import uvicorn
 import threading
 import asyncio
+from contextlib import asynccontextmanager
 
 from fastapi.middleware.cors import CORSMiddleware
-
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # Global instances
 llm_engine = None
 rag_engine = None
 tts_engine = None
 
-class ChatRequest(BaseModel):
-    message: str
-
-@app.on_event("startup")
-async def startup_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
     print("--- STARTING UP: CORS SHOULD BE ACTIVE ---")
     global llm_engine, rag_engine, tts_engine
-    # Initialize engines
+    
     try:
         llm_engine = LLMEngine()
         rag_engine = RAGEngine()
@@ -45,6 +34,25 @@ async def startup_event():
         
     except Exception as e:
         print(f"Error initializing engines: {e}")
+        raise
+    
+    yield
+    
+    # Shutdown (cleanup if needed)
+    print("--- SHUTTING DOWN ---")
+
+app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class ChatRequest(BaseModel):
+    message: str
 
 @app.post("/rag/ingest")
 async def ingest_data():
@@ -103,11 +111,22 @@ async def chat(request: ChatRequest):
     print(f"Prompt constructed. Starting LLM stream...")
     
     # 3. Stream Response
-    # measure time to first byte inside the generator or just log start here
     t2 = time.time()
     print(f"Pre-stream setup took: {t2 - start_time:.2f}s")
     
     return StreamingResponse(llm_engine.stream_chat(messages), media_type="text/event-stream")
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "engines": {
+            "llm": llm_engine is not None,
+            "rag": rag_engine is not None,
+            "tts": tts_engine is not None
+        }
+    }
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
