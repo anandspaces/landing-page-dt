@@ -4,10 +4,10 @@ services:
       context: ./llm-service
     ports:
       - "9005:8000"
-    environment:
-      - HF_TOKEN=${HF_TOKEN}
+    env_file:
+      - ./llm-service/.env
     volumes:
-      - ./llm-service/models:/app/models # Persist download models
-      - ./llm-service/chroma_db:/app/chroma_db # Persist vector DB
-      - ./dextora_100_questions_clean.csv:/app/dextora_100_questions_clean.csv # Mount dataset for access
+      - ./llm-service/models:/app/models
+      - ./llm-service/chroma_db:/app/chroma_db
+      - ./dextora_100_questions_clean.csv:/app/dextora_100_questions_clean.csv
     restart: always
