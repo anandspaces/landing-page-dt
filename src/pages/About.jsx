@@ -1,88 +1,49 @@
+import { Bot, Eye, Users, BarChart } from 'lucide-react';
+
+
 function About() {
   return (
-    <div className="relative min-h-screen pt-32 pb-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-electric-blue/10 border border-electric-blue/30 rounded-full mb-6">
-            <span className="w-2 h-2 bg-electric-blue rounded-full animate-pulse" />
-            <span className="text-sm text-electric-blue font-semibold">About Us</span>
+    <div className="relative min-h-screen pt-32 pb-20 overflow-hidden">
+      {/* Background Elements */}
+
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        {/* Aura removed as requested */}
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
+          <div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-electric-blue/10 border border-electric-blue/30 rounded-full mb-6">
+              <span className="w-2 h-2 bg-electric-blue rounded-full animate-pulse" />
+              <span className="text-sm text-electric-blue font-semibold">Our Vision</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              We Are Redefining <br />
+              <span className="gradient-text">Education with AI</span>
+            </h1>
+            <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+              Education has remained unchanged for decades, while students have changed completely.
+              Dextora was created to solve this gap by building a personal AI tutor for every student, connected directly to their books, syllabus, learning behavior, and future goals.
+            </p>
+            <p className="text-lg text-gray-300 mb-8 leading-relaxed">
+              Dextora doesn’t just teach subjects — it understands students deeply and grows with them year after year.
+            </p>
+
+            <div className="space-y-6">
+              <div className="glass-card p-6 border-l-4 border-l-electric-blue">
+                <h3 className="text-xl font-bold text-white mb-2">Mission</h3>
+                <p className="text-gray-400">To deliver personalized, intelligent education to every student.</p>
+              </div>
+              <div className="glass-card p-6 border-l-4 border-l-purple-500">
+                <h3 className="text-xl font-bold text-white mb-2">Vision</h3>
+                <p className="text-gray-400">To become the world’s most trusted AI-powered learning platform.</p>
+              </div>
+            </div>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="gradient-text">About Dextora AI</span>
-          </h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            An AI-powered learning platform built on academic rigor and research-backed methodologies
-          </p>
         </div>
 
-        {/* Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          <div className="glass-card p-8 md:p-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Our Mission</h2>
-            <p className="text-gray-400 leading-relaxed mb-4">
-              Dextora AI is designed to transform how students learn through personalized AI mentorship. We combine advanced artificial intelligence with proven educational methodologies to create adaptive learning experiences.
-            </p>
-            <p className="text-gray-400 leading-relaxed">
-              Our platform serves students from Class 1–12, as well as those preparing for competitive exams like IIT-JEE and NEET, providing 24/7 AI-powered guidance tailored to individual learning styles.
-            </p>
-          </div>
-
-          <div className="glass-card p-8 md:p-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Academic Foundation</h2>
-            <p className="text-gray-400 leading-relaxed mb-4">
-              Built with academic grounding aligned with methodologies from IIM Lucknow and IIT Kanpur, Dextora AI brings together expertise in management, engineering, and artificial intelligence.
-            </p>
-            <p className="text-gray-400 leading-relaxed">
-              Our approach is research-backed, focusing on measurable learning outcomes, retention improvement, and sustainable academic performance gains.
-            </p>
-          </div>
-        </div>
-
-        {/* Key Features */}
-        <div className="glass-card p-8 md:p-10">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">What We Offer</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-electric-blue/20 to-soft-cyan/20 border border-electric-blue/30 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
-                🤖
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-white mb-2">Adaptive AI Tutoring</h3>
-                <p className="text-gray-400 text-sm">Personalized learning pathways that adapt to your pace and style</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-electric-blue/20 to-soft-cyan/20 border border-electric-blue/30 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
-                👁️
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-white mb-2">Vision Intelligence</h3>
-                <p className="text-gray-400 text-sm">Computer vision for posture monitoring and note digitization</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-electric-blue/20 to-soft-cyan/20 border border-electric-blue/30 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
-                👥
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-white mb-2">Multiple AI Mentors</h3>
-                <p className="text-gray-400 text-sm">Access diverse teaching styles and mentor personalities</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-electric-blue/20 to-soft-cyan/20 border border-electric-blue/30 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
-                📊
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-white mb-2">Performance Analytics</h3>
-                <p className="text-gray-400 text-sm">Data-driven insights into learning patterns and progress</p>
-              </div>
-            </div>
-          </div>
+        <div className="text-center mt-20">
+          <h2 className="text-3xl font-bold text-white mb-4">Welcome to the future of learning.</h2>
         </div>
       </div>
     </div>

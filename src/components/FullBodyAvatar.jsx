@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { AlertTriangle } from 'lucide-react';
 
 function FullBodyAvatar({ isTalking }) {
   const containerRef = useRef(null);
@@ -81,10 +82,71 @@ function FullBodyAvatar({ isTalking }) {
 
         console.log('Loading avatars...');
 
-        // Helper to load GLTF
-        const loadGltf = (url) => new Promise((resolve, reject) => {
-          loader.load(url, resolve, undefined, reject);
-        });
+        // Helper to load GLTF with Cache API
+        const loadGltf = async (url) => {
+          try {
+            const cacheName = 'avatar-cache-v1';
+            let blob;
+
+            // Try to find in cache first
+            if ('caches' in window) {
+              try {
+                const cache = await caches.open(cacheName);
+                const cachedResponse = await cache.match(url);
+
+                if (cachedResponse) {
+                  console.log(`Loading ${url} from cache`);
+                  blob = await cachedResponse.blob();
+                } else {
+                  console.log(`Downloading ${url} and caching...`);
+                  const response = await fetch(url);
+                  if (!response.ok) throw new Error(`Fetch failed: ${response.statusText}`);
+
+                  // Clone response to put in cache
+                  cache.put(url, response.clone());
+                  blob = await response.blob();
+                }
+              } catch (e) {
+                console.warn('Cache API error, falling back to network', e);
+                // Fallback to fetch if cache fails
+                const response = await fetch(url);
+                blob = await response.blob();
+              }
+            } else {
+              // Fallback for browsers without Cache API
+              const response = await fetch(url);
+              blob = await response.blob();
+            }
+
+            // Create object URL from blob
+            const objectUrl = URL.createObjectURL(blob);
+
+            return new Promise((resolve, reject) => {
+              loader.load(
+                objectUrl,
+                (gltf) => {
+                  // Clean up blob URL after loading
+                  // URL.revokeObjectURL(objectUrl); // Keep it if we need reuse? GLTFLoader typically parses it.
+                  // For safety, let's keep it until component unmount or just let GC handle it if feasible, 
+                  // but standard practice is revoke. However, GLTF might reference external buffers. 
+                  // Because these are .glb (binary), they are self contained.
+                  resolve(gltf);
+                },
+                undefined,
+                (error) => {
+                  reject(error);
+                }
+              );
+            });
+
+          } catch (err) {
+            console.error(`Error loading ${url}:`, err);
+            // Last resort fallback
+            return new Promise((resolve, reject) => {
+              loader.load(url, resolve, undefined, reject);
+            });
+          }
+        };
 
         try {
           const [idleGltf, talkGltf] = await Promise.all([
@@ -105,6 +167,7 @@ function FullBodyAvatar({ isTalking }) {
           const center = new THREE.Vector3();
           box.getCenter(center);
           model.position.sub(center);
+          model.position.x += 0.1; // Visual offset to center the avatar (user reported it looked left-shifted)
 
           // Camera pos
           const fov = camera.fov * (Math.PI / 180);
@@ -178,7 +241,11 @@ function FullBodyAvatar({ isTalking }) {
           camera.updateProjectionMatrix();
           renderer.setSize(w, h);
         };
-        window.addEventListener('resize', handleResize);
+        // ResizeObserver for robust layout handling
+        const resizeObserver = new ResizeObserver(() => {
+          handleResize();
+        });
+        resizeObserver.observe(container);
 
         // Loop
         let frameId;
@@ -192,7 +259,7 @@ function FullBodyAvatar({ isTalking }) {
 
         return () => {
           cancelAnimationFrame(frameId);
-          window.removeEventListener('resize', handleResize);
+          resizeObserver.disconnect();
           try {
             if (shadowPlane) {
               shadowPlane.geometry.dispose();
@@ -228,7 +295,10 @@ function FullBodyAvatar({ isTalking }) {
       {error && (
         <div className="absolute inset-0 flex flex-col items-center justify-center z-20 gap-4 bg-red-900/20">
           <div className="text-white text-center px-4">
-            <p className="text-3xl font-bold mb-4">⚠️ Error</p>
+            <div className="flex items-center justify-center mb-4">
+              <AlertTriangle className="w-12 h-12 text-red-500" />
+            </div>
+            <p className="text-3xl font-bold mb-4">Error</p>
             <p className="text-xl text-red-300">{error}</p>
             <p className="text-sm mt-2 text-slate-300">Check console for details (F12)</p>
           </div>

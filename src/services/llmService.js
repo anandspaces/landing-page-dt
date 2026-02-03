@@ -11,12 +11,13 @@ export const generateResponse = async (userText) => {
 /**
  * Streams the response from the Local LLM.
  */
-export const generateResponseStream = async (userText, onSentence, onComplete, onFullTextUpdate) => {
+export const generateResponseStream = async (userText, onSentence, onComplete, onFullTextUpdate, signal) => {
     try {
         const response = await fetch(LLM_API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: userText })
+            body: JSON.stringify({ message: userText }),
+            signal: signal
         });
 
         if (!response.ok) throw new Error(`API Error: ${response.status}`);

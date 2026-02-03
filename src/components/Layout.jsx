@@ -46,15 +46,15 @@ function Layout() {
         <Navigation />
       </div>
 
-      <main className="relative z-50">
+      <main className="relative z-50 transition-all duration-300">
         <Outlet />
       </main>
 
       {/* Avatar Widget with smooth slide-out logic */}
       <div
         className={`fixed top-1/2 right-0 -translate-y-1/2 z-[70] hidden lg:block transition-all duration-700 ease-in-out pointer-events-none ${showAvatar && location.pathname !== '/chat'
-            ? 'opacity-100 translate-x-0'
-            : 'opacity-0 translate-x-40'
+          ? 'opacity-100 translate-x-0'
+          : 'opacity-0 translate-x-40'
           }`}
       >
         <div className="pointer-events-auto">
@@ -62,7 +62,9 @@ function Layout() {
         </div>
       </div>
 
-      <Footer />
+      <div className="relative z-50">
+        <Footer />
+      </div>
     </div>
   );
 }

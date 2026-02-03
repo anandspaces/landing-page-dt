@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Bot } from 'lucide-react';
 function AvatarWidget() {
   const containerRef = useRef(null);
   const navigate = useNavigate();
@@ -320,33 +321,32 @@ function AvatarWidget() {
   return (
     <div className="relative">
       {/* Dialogue Box & Chat Option */}
-      {(isHovering || showChatOption) && (
-        <div className="absolute -top-12 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+      {/* Bot Chat Icon */}
+      {/* Permanent display to avoid flickering */}
+      <button
+        onClick={() => navigate('/chat')}
+        className="absolute bottom-4 right-4 z-50 group"
+        aria-label="Chat with Dextora"
+        style={{ pointerEvents: 'auto' }}
+      >
+        {/* Pulse effect */}
+        <div className="absolute inset-0 bg-cyan rounded-full animate-ping opacity-20 group-hover:opacity-40 duration-1000" />
 
-          {/* Chat Button - Only shows after clicking avatar */}
-          {showChatOption && (
-            <button
-              onClick={() => navigate('/chat')} // Redirects to /chat
-              className="bg-cyan hover:bg-cyan-soft text-black font-bold px-8 py-3 rounded-full shadow-[0_0_20px_rgba(79,209,255,0.4)] transition-all transform hover:scale-105 active:scale-95"
-            >
-              Chat with Me
-            </button>
-          )}
-
-          {/* Existing "Want some help?" Box */}
-          <div className="bg-charcoal border border-cyan border-opacity-40 rounded-lg px-6 py-3 whitespace-nowrap shadow-xl">
-            <p className="text-offwhite font-medium text-sm">
-              {showChatOption ? "I'm ready to talk!" : "Want some help?"}
-            </p>
-            <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-charcoal border-r border-b border-cyan border-opacity-40 rotate-45"></div>
-          </div>
+        {/* Icon Container */}
+        <div className="relative bg-charcoal border border-cyan/50 p-4 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.4)] group-hover:shadow-[0_0_30px_rgba(34,211,238,0.6)] group-hover:scale-110 transition-all duration-300">
+          <Bot className="w-8 h-8 text-cyan group-hover:text-white transition-colors duration-300" />
         </div>
-      )}
+
+        {/* Simple tooltip */}
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+          <span className="text-cyan text-xs font-mono tracking-widest bg-charcoal/90 px-2 py-1 rounded border border-cyan/20">CHAT</span>
+        </div>
+      </button>
 
       <div className="relative">
         {/* Aura Effect for Home Page */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan/30 blur-[80px] rounded-full animate-pulse delay-0 transition-all duration-1000 mix-blend-screen pointer-events-none -z-10" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-cyan/50 blur-[50px] rounded-full animate-pulse delay-150 transition-all duration-1000 mix-blend-screen pointer-events-none -z-10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-cyan/5 blur-[80px] rounded-full animate-pulse delay-0 transition-all duration-1000 mix-blend-screen pointer-events-none -z-10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] bg-cyan/10 blur-[50px] rounded-full animate-pulse delay-150 transition-all duration-1000 mix-blend-screen pointer-events-none -z-10" />
 
         <div
           ref={containerRef}

@@ -17,6 +17,12 @@ class RAGEngine:
         """
         Read .txt files from data/company and data/competitors and index them.
         """
+        # Resolve path relative to this file if default is used
+        if data_dir == "data":
+            base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            data_dir = os.path.join(base_path, "data")
+            
+        print(f"Ingesting from: {data_dir}")
         files = glob.glob(os.path.join(data_dir, "**", "*.txt"), recursive=True)
         print(f"Found {len(files)} files to ingest.")
         

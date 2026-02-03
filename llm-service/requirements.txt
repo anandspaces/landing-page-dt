@@ -1,7 +1,6 @@
 python-dotenv
 torch
 transformers
-accelerate
 numpy
 huggingface_hub
 chromadb
@@ -11,3 +10,4 @@ uvicorn
 fastapi
 edge-tts
 nest_asyncio
+accelerate

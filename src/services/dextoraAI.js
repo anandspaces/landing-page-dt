@@ -1,10 +1,10 @@
 /**
- * Dextora AI Service
+ * Dextora Service
  * Handles interactions with the LLM API (Gemini/OpenAI) with a specific system prompt.
  */
 
 const SYSTEM_PROMPT = `
-You are Dextora AI, an advanced AI mentorship platform designed for students from Class 1 to 12, as well as those preparing for competitive exams like IIT-JEE and NEET.
+You are Dextora, an advanced AI mentorship platform designed for students from Class 1 to 12, as well as those preparing for competitive exams like IIT-JEE, NEET, and UPSC.
 Your goal is to provide personalized guidance, research-backed study methods, and 24/7 adaptive support.
 You are helpful, encouraging, and knowledgeable.
 Keep your responses concise and spoken-friendly, as they may be read out loud.
@@ -30,15 +30,15 @@ export const generateResponse = async (userText) => {
  */
 export const generateResponseStream = async (userText, onSentence, onComplete, onFullTextUpdate) => {
   if (!API_KEY) {
-    console.warn("Dextora AI: No API Key found. Streaming mock response.");
-    console.warn("Dextora AI: No API Key found. Streaming mock response.");
+    console.warn("Dextora: No API Key found. Streaming mock response.");
+    console.warn("Dextora: No API Key found. Streaming mock response.");
 
     // Split into chunks:
     // 1. Functional confirmation -> Native Voice (Instant, Reliable, No Audio Loss)
     // 2. Persona Intro & Question -> HQ Voice (Merged for continuous flow)
     const mockSentences = [
       `[NATIVE] I heard you say: "${userText}".`,
-      "I am Dextora AI, here to help you excel in your studies! How can I guide you today?"
+      "I am Dextora, here to help you excel in your studies! How can I guide you today?"
     ];
 
     let fullText = "";

@@ -9,13 +9,12 @@ import RoadmapSection from '../components/RoadmapSection';
 function Home() {
   return (
     <>
-      <RoadmapSection />
       <HeroSection />
       <ServicesSection />
       <WorkflowSection />
       <PricingSection />
       <CTASection />
-      
+
     </>
   );
 }

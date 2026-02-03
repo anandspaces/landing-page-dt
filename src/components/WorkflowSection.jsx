@@ -1,140 +1,96 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
-
-/**
- * Workflow Section with Milestone Cards
- * Advanced scrollytelling with:
- * - Milestone cards appearing sequentially on scroll
- */
+import { ClipboardList, Target, Bot, BarChart, Users, GraduationCap } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const workflowSteps = [
   {
     number: '01',
     title: 'Assessment & Onboarding',
     description: 'Comprehensive skill mapping to establish your learning baseline and create an intelligent AI profile.',
-    icon: '📝',
+    icon: <ClipboardList className="w-6 h-6 text-cyan" />,
   },
   {
     number: '02',
     title: 'Personalized Learning Path',
     description: 'Adaptive curriculum aligned with exam requirements, intelligently paced for optimal retention.',
-    icon: '🎯',
+    icon: <Target className="w-6 h-6 text-cyan" />,
   },
   {
     number: '03',
     title: 'AI Tutor & Vision Intelligence',
     description: '24/7 adaptive mentorship with real-time feedback and vision-based posture analysis.',
-    icon: '🤖',
+    icon: <Bot className="w-6 h-6 text-cyan" />,
   },
   {
     number: '04',
     title: 'Practice & Analytics',
     description: 'Adaptive mock tests with weak-area detection and detailed performance insights.',
-    icon: '📊',
+    icon: <BarChart className="w-6 h-6 text-cyan" />,
   },
   {
     number: '05',
     title: 'Persona Ecosystem',
     description: 'Multiple AI mentors designed to build confidence, maintain motivation, and reduce stress.',
-    icon: '👥',
+    icon: <Users className="w-6 h-6 text-cyan" />,
   },
   {
     number: '06',
     title: 'Outcome & Excellence',
     description: 'Complete exam readiness with academic mastery and career clarity for your future.',
-    icon: '🎓',
+    icon: <GraduationCap className="w-6 h-6 text-cyan" />,
   },
 ];
 
 const WorkflowSection = () => {
-  const cardsContainerRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate milestone cards appearing
-      const cards = gsap.utils.toArray('.milestone-card');
-      cards.forEach((card, index) => {
-        gsap.fromTo(
-          card,
-          {
-            opacity: 0,
-            y: 50,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 80%',
-              end: 'top 20%',
-              scrub: 1,
-              toggleActions: 'play reverse play reverse',
-            },
-          }
-        );
-      });
-    });
-
-    return () => {
-      ctx.revert();
-    };
-  }, []);
-
   return (
-    <section
-      id="workflow"
-      className="relative min-h-screen bg-gradient-to-b from-deep-navy/40 via-charcoal/40 to-deep-navy/40 overflow-hidden py-20"
-    >
-      {/* Background effects */}
-      <div className="absolute inset-0 gradient-bg-2 opacity-50 pointer-events-none" />
-      <div className="absolute inset-0 noise-overlay pointer-events-none" />
+    <section id="workflow" className="relative py-32 bg-charcoal overflow-hidden">
+      {/* Connecting Line for Desktop */}
+      <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan/30 to-transparent hidden lg:block" />
 
-      {/* Cards Container */}
-      <div className="relative z-10">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
-          {/* Section Title */}
-          <div className="mb-16 text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-electric-blue/10 border border-electric-blue/30 rounded-full mb-6">
-              <span className="text-sm text-electric-blue font-semibold">Learning Journey</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              <span className="gradient-text">Your Path</span>
-              <br />
-              <span className="text-white">to Success</span>
+      <div className="relative z-10 w-full lg:max-w-[75%] px-6 md:px-12 lg:pl-24">
+        <div className="mb-20 text-center lg:text-left">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-block"
+          >
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
+              <span className="gradient-text">Your Path to Success</span>
             </h2>
-            <p className="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto">
-              Follow our proven six-step pathway to academic excellence, guided by AI at every stage.
+            <p className="text-gray-400 font-mono text-sm max-w-2xl mx-auto lg:mx-0">
+              SYSTEMATIC . ADAPTIVE . INTELLIGENT
             </p>
-          </div>
+          </motion.div>
+        </div>
 
-          {/* Milestone Cards Grid */}
-          <div ref={cardsContainerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {workflowSteps.map((step, index) => (
-              <div
-                key={index}
-                className="milestone-card glass-card p-6 md:p-8 hover:border-electric-blue/50 transition-all duration-300"
-              >
-                <div className="flex flex-col h-full">
-                  {/* Icon */}
-                  <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-electric-blue/20 to-subtle-violet/20 border border-electric-blue/30 rounded-xl flex items-center justify-center text-3xl mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
+          {workflowSteps.map((step, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="relative group"
+            >
+              <div className="glass-panel p-8 h-full rounded-2xl hover:bg-charcoal-light/60 transition-colors border border-white/5 hover:border-cyan/30">
+                <div className="flex justify-between items-start mb-6">
+                  <span className="text-4xl font-display font-bold text-white/5 group-hover:text-cyan/20 transition-colors">
+                    {step.number}
+                  </span>
+                  <div className="w-12 h-12 rounded-lg bg-charcoal border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
                     {step.icon}
                   </div>
-
-                  {/* Content */}
-                  <div className="flex-1">
-                    <div className="flex items-baseline gap-2 mb-2">
-                      <span className="text-sm font-mono text-electric-blue font-bold">{step.number}</span>
-                      <h3 className="text-lg font-bold text-white">{step.title}</h3>
-                    </div>
-                    <p className="text-sm text-gray-400 leading-relaxed mt-3">{step.description}</p>
-                  </div>
                 </div>
+
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cyan transition-colors">{step.title}</h3>
+                <p className="text-sm text-gray-400 leading-relaxed">{step.description}</p>
               </div>
-            ))}
-          </div>
+
+              {/* Decorative connecting dots for desktop */}
+              <div className="absolute top-1/2 -right-4 w-2 h-2 bg-cyan rounded-full hidden lg:block opacity-20" />
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

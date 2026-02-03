@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Orbitron:wght@400;500;700;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,109 +9,92 @@
     @apply bg-charcoal text-offwhite antialiased;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
+    /* Clean refined background */
+    background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.03), transparent 40%);
   }
 
   html {
     scroll-behavior: smooth;
+    background: #05070a;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
     background: #0b0f14;
   }
 
-  body, button, input, textarea {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  ::-webkit-scrollbar-thumb {
+    background: #1f2937;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #38bdf8;
+  }
+
+  /* Selection */
+  ::selection {
+    background: rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-4 rounded-full bg-gradient-to-r from-cyan to-violet text-black font-semibold tracking-tight transition-transform duration-300 hover:scale-105 shadow-[0_0_40px_rgba(79,209,255,0.25)];
+    @apply inline-flex items-center justify-center px-8 py-4 rounded-none clip-path-slant bg-cyan text-charcoal font-bold tracking-wider transition-all duration-300 hover:bg-white hover:shadow-glow-cyan uppercase font-display text-sm relative overflow-hidden;
   }
 
-  .btn-ghost {
-    @apply inline-flex items-center justify-center px-8 py-4 rounded-full border border-cyan/40 text-cyan font-semibold tracking-tight transition-colors duration-300 hover:bg-cyan/10;
+  /* Tech border button */
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-8 py-4 rounded-none clip-path-slant border border-cyan/30 text-cyan font-bold tracking-wider transition-all duration-300 hover:bg-cyan/10 hover:border-cyan hover:shadow-glow-cyan uppercase font-display text-sm backdrop-blur-sm;
   }
 
-  .section-label {
-    @apply uppercase tracking-[0.24em] text-xs text-cyan/90 inline-flex items-center gap-3 font-semibold;
+  .glass-card {
+    @apply backdrop-blur-md bg-charcoal-light/40 border border-white/5 shadow-glass rounded-xl;
   }
 
-  .logo-text {
-    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
-    @apply font-bold text-xl tracking-tighter bg-gradient-to-r from-cyan via-violet to-cyan bg-clip-text text-transparent;
+  .glass-panel {
+    @apply backdrop-blur-xl bg-charcoal/80 border border-white/10 shadow-glass;
   }
 
-  .hero-title {
-    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
-    @apply font-extrabold tracking-tight;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
+  .tech-border {
+    @apply border border-cyan/20 bg-charcoal/50 backdrop-blur-sm relative;
   }
 
-  /* Additional hero typography used in components */
-  .hero-headline {
-    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+  .tech-border::before {
+    content: '';
+    @apply absolute top-0 left-0 w-2 h-2 border-t border-l border-cyan opacity-80;
   }
 
-  .hero-subheadline {
-    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+  .tech-border::after {
+    content: '';
+    @apply absolute bottom-0 right-0 w-2 h-2 border-b border-r border-cyan opacity-80;
   }
 
-  .hero-sub {
-    font-family: 'Inter', sans-serif;
-    @apply font-light tracking-wide;
-    letter-spacing: 0.5px;
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan via-blue-200 to-cyan;
   }
 }
 
 @layer utilities {
-  .text-offwhite {
-    color: #e8edf5;
+  .clip-path-slant {
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
   }
 
-  .noise-overlay::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    mix-blend-mode: soft-light;
+  .text-glow {
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
   }
 
-  /* Roadmap styling */
-  .roadmap-section {
-    scroll-behavior: smooth;
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 
-  .milestone-card {
-    @apply transition-all duration-300;
-    /* Subtle glow on hover */
-    &:hover {
-      box-shadow: 0 0 40px rgba(79, 209, 255, 0.15);
-    }
-  }
-
-  .roadmap-orb {
-    /* Glow effect from hero aura aesthetic */
-    filter: drop-shadow(0 0 15px rgba(79, 209, 255, 0.8)) drop-shadow(0 0 8px rgba(124, 124, 255, 0.5));
-    animation: roadmap-pulse 3s ease-in-out infinite;
-  }
-
-  @keyframes roadmap-pulse {
-    0%, 100% {
-      filter: drop-shadow(0 0 15px rgba(79, 209, 255, 0.8)) drop-shadow(0 0 8px rgba(124, 124, 255, 0.5));
-    }
-    50% {
-      filter: drop-shadow(0 0 25px rgba(79, 209, 255, 1)) drop-shadow(0 0 12px rgba(124, 124, 255, 0.7));
-    }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
-
-/* Global gradient text treatment gets display font */
-.gradient-text {
-  font-family: 'IBM Plex Sans', 'Inter', sans-serif;
-}
-

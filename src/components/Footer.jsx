@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useRef, useEffect } from 'react';
+import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import gsap from 'gsap';
 
 /**
@@ -48,18 +49,18 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-electric-blue to-subtle-violet rounded-xl flex items-center justify-center">
-                <span className="text-deep-navy font-bold text-2xl">D</span>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center overflow-hidden">
+                <img src="/dextora-logo.webp" alt="Dextora" className="w-full h-full object-contain" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold gradient-text">Dextora AI</h3>
+                <h3 className="text-2xl font-bold gradient-text">Dextora</h3>
               </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-4">
-              An AI-powered learning platform for Class 1–12, IIT-JEE, and NEET. Built with academic rigor aligned with IIM Lucknow and IIT Kanpur methodologies.
+              An AI-powered learning platform for Class 1–12, IIT-JEE, NEET, and UPSC. Built with academic rigor and advanced methodologies.
             </p>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-electric-blue/30 rounded-full">
-              <span className="text-xs text-gray-400">IIM Lucknow · IIT Kanpur</span>
+              <span className="text-xs text-gray-400">Trusted by Top Institutes</span>
             </div>
           </div>
 
@@ -127,46 +128,32 @@ const Footer = () => {
             <h4 className="text-white font-semibold mb-4">Contact Us</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
-                <span className="text-electric-blue mt-1">📞</span>
+                <Phone className="w-4 h-4 text-electric-blue mt-1" />
                 <a href="tel:+918447934906" className="text-gray-400 hover:text-electric-blue transition-colors text-sm">
                   +91 84479 34906
                 </a>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-electric-blue mt-1">✉️</span>
+                <Mail className="w-4 h-4 text-electric-blue mt-1" />
                 <a href="mailto:info@dextora.ai" className="text-gray-400 hover:text-electric-blue transition-colors text-sm">
                   info@dextora.ai
                 </a>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-electric-blue mt-1">📍</span>
+                <MapPin className="w-4 h-4 text-electric-blue mt-1" />
                 <span className="text-gray-400 text-sm">
-                  IIM Lucknow Campus, Lucknow
+                  Innovation Centre, Lucknow
                 </span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-electric-blue mt-1">🕐</span>
+                <Clock className="w-4 h-4 text-electric-blue mt-1" />
                 <span className="text-gray-400 text-sm">24/7 Support</span>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Institutional Partnerships Section */}
-        <div className="border-t border-white/10 py-12 mb-4">
-          <p className="text-xs uppercase tracking-widest text-gray-500 mb-6 text-center">Backed by Leading Institutions</p>
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-            <div className="flex flex-col items-center gap-2 group cursor-pointer">
-              <div className="text-sm font-semibold text-gray-300 group-hover:text-electric-blue transition-colors">IIM Lucknow</div>
-              <div className="h-1 w-12 bg-electric-blue/30 group-hover:bg-electric-blue transition-all"></div>
-            </div>
-            <div className="text-gray-600">·</div>
-            <div className="flex flex-col items-center gap-2 group cursor-pointer">
-              <div className="text-sm font-semibold text-gray-300 group-hover:text-electric-blue transition-colors">IIT Kanpur</div>
-              <div className="h-1 w-12 bg-electric-blue/30 group-hover:bg-electric-blue transition-all"></div>
-            </div>
-          </div>
-        </div>
+
 
         {/* Divider */}
         <div className="border-t border-white/10 mb-8" />
@@ -175,25 +162,25 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Copyright */}
           <div className="text-sm text-gray-400 text-center md:text-left">
-            © 2024 Dextora AI. All rights reserved. | Backed by IIM Lucknow & IIT Kanpur
+            © 2026 Dextora. All rights reserved.
           </div>
 
           {/* Legal links */}
           <div className="flex items-center gap-6">
             <a
-              href="https://dextora.org/terms-conditions"
+              href="/terms-conditions"
               className="text-sm text-gray-400 hover:text-electric-blue transition-colors"
             >
               Terms & Conditions
             </a>
             <a
-              href="https://dextora.org/privacy-policy"
+              href="/privacy-policy"
               className="text-sm text-gray-400 hover:text-electric-blue transition-colors"
             >
               Privacy Policy
             </a>
             <a
-              href="https://dextora.org/faq"
+              href="/faq"
               className="text-sm text-gray-400 hover:text-electric-blue transition-colors"
             >
               FAQ

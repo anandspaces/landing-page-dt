@@ -7,27 +7,36 @@ export default {
   theme: {
     extend: {
       colors: {
-        charcoal: '#0b0f14',
+        charcoal: '#020617', // Slate 950 - polished dark
+        'charcoal-light': '#0f172a', // Slate 900
         black: '#000000',
-        offwhite: '#e8edf5',
-        cyan: '#4fd1ff',
-        violet: '#7c7cff',
-        'cyan-soft': 'rgba(79, 209, 255, 0.08)',
-        'violet-soft': 'rgba(124, 124, 255, 0.08)',
+        offwhite: '#f8fafc', // Slate 50
+        cyan: '#38bdf8',     // Sky 400 - Classy tech blue
+        violet: '#6366f1',   // Indigo 500 - Professional depth
+        'cyan-soft': 'rgba(56, 189, 248, 0.1)',
+        'violet-soft': 'rgba(99, 102, 241, 0.1)',
       },
       fontFamily: {
-        sans: ['Poppins', 'Inter', 'Satoshi', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-        display: ['Syne', 'Poppins', 'sans-serif'],
+        sans: ['Inter', 'Satoshi', 'system-ui', 'sans-serif'],
+        display: ['Syne', 'Orbitron', 'sans-serif'], // Added Orbitron for tech headers
+        mono: ['Space Mono', 'JetBrains Mono', 'monospace'], // Added tech mono font
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'noise': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E\")",
+        'gradient-subtle': 'linear-gradient(to right bottom, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0))',
+        'tech-grid': "radial-gradient(circle, rgba(0, 243, 255, 0.1) 1px, transparent 1px)",
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'glow': 'glow 2s ease-in-out infinite alternate',
+        'scanline': 'scanline 8s linear infinite',
+        'spin-slow': 'spin 12s linear infinite',
+      },
+      boxShadow: {
+        'glow-cyan': '0 0 20px rgba(0, 243, 255, 0.5), 0 0 10px rgba(0, 243, 255, 0.3)',
+        'glow-violet': '0 0 20px rgba(188, 19, 254, 0.5), 0 0 10px rgba(188, 19, 254, 0.3)',
+        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
       },
       keyframes: {
         float: {
@@ -35,8 +44,12 @@ export default {
           '50%': { transform: 'translateY(-20px)' },
         },
         glow: {
-          '0%': { boxShadow: '0 0 5px rgba(0, 212, 255, 0.2), 0 0 10px rgba(0, 212, 255, 0.1)' },
-          '100%': { boxShadow: '0 0 20px rgba(0, 212, 255, 0.4), 0 0 30px rgba(0, 212, 255, 0.2)' },
+          '0%': { boxShadow: '0 0 5px rgba(0, 243, 255, 0.2), 0 0 10px rgba(0, 243, 255, 0.1)' },
+          '100%': { boxShadow: '0 0 20px rgba(0, 243, 255, 0.6), 0 0 30px rgba(0, 243, 255, 0.4)' },
+        },
+        scanline: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100%)' },
         },
       },
     },

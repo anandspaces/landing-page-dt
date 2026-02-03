@@ -36,3 +36,4 @@ chroma_db/
 *.bin
 llm-service/models/*.gguf
 models/
+*.md

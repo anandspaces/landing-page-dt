@@ -1,147 +1,93 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import gsap from 'gsap';
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 
 const Navigation = () => {
-  const navRef = useRef(null);
-  const lastScrollY = useRef(0);
+  const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { scrollY } = useScroll();
 
-  useEffect(() => {
-    // Initial state (hidden)
-    gsap.set(navRef.current, { opacity: 0, y: 0 });
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious();
+    if (latest > previous && latest > 150) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+    setScrolled(latest > 50);
+  });
 
-    //  fade-in on load (ONCE)
-    gsap.to(navRef.current, {
-      opacity: 1,
-      duration: 0.9,
-      ease: 'power1.out',
-      clearProps: 'opacity',
-    });
-
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      setScrolled(currentScrollY > 50);
-
-      if (currentScrollY > lastScrollY.current && currentScrollY > 120) {
-        // scrolling down → hide nav
-        gsap.to(navRef.current, {
-          opacity: 0,
-          y: -9,
-          duration: 0.15,
-          ease: 'power1.out',
-        });
-      } else {
-        // scrolling up → show nav
-        gsap.to(navRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.25,
-          ease: 'power1.out',
-        });
-      }
-
-      lastScrollY.current = currentScrollY;
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const links = [
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Student', path: '/student' },
+    { name: 'Teacher', path: '/teacher' },
+    { name: 'Parent', path: '/parent' },
+    { name: 'School', path: '/school' },
+  ];
 
   return (
-    <nav
-      ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 will-change-transform will-change-opacity
-        bg-charcoal/40 backdrop-blur-md
-        ${scrolled ? 'bg-charcoal/80 border-b border-white/10' : ''}
-      `}
+    <motion.nav
+      variants={{
+        visible: { y: 0, opacity: 1 },
+        hidden: { y: -100, opacity: 0 },
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className={`fixed top-0 left-0 right-0 z-[100] flex justify-center pt-6 transition-all duration-300 pointer-events-none`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-2.5 flex items-center justify-between">
+      <div
+        className={`pointer-events-auto relative mx-4 md:mx-auto max-w-7xl w-full flex items-center justify-between px-6 py-3 rounded-full transition-all duration-500
+          ${scrolled
+            ? 'glass-panel bg-charcoal/90 border-cyan/20 shadow-glow-cyan-subtle backdrop-blur-xl'
+            : 'bg-transparent border border-transparent'
+          }
+        `}
+      >
         {/* Logo */}
-        <div className="flex items-center gap-3">
-          <img 
-            src="/dextora-logo.webp" 
-            alt="Dextora Logo" 
-            className="w-8 h-8 object-contain"
-          />
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="relative">
+            <div className="absolute inset-0 bg-cyan blur-lg opacity-20 group-hover:opacity-40 transition-opacity" />
+            <img
+              src="/dextora-logo.webp"
+              alt="Dextora Logo"
+              className="w-10 h-10 object-contain relative z-10"
+            />
+          </div>
           <div>
-            <h1 className="logo-text">DEXTORA</h1>
-            <p className="text-xs text-gray-400 tracking-wide">
-              IIM LUCKNOW IIT KANPUR 
+            <h1 className="logo-text text-xl tracking-tighter group-hover:text-glow transition-all">DEXTORA</h1>
+            <p className="text-[10px] uppercase tracking-widest text-cyan/70 font-mono">
+              IIM Lucknow IIT Kanpur
             </p>
           </div>
-        </div>
+        </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          <Link to="/" className="text-sm text-gray-200 hover:text-cyan transition-colors">
-            Home
-          </Link>
-          <Link to="/about" className="text-sm text-gray-200 hover:text-cyan transition-colors">
-            About
-          </Link>
-          <Link to="/services" className="text-sm text-gray-200 hover:text-cyan transition-colors">
-            Services
-          </Link>
-          <Link to="/contact" className="text-sm text-gray-200 hover:text-cyan transition-colors">
-            Contact
-          </Link>
-          <Link to="/admission" className="text-sm text-gray-200 hover:text-cyan transition-colors">
-            Admission
-          </Link>
-          <div className="relative">
-            <button
-              onMouseEnter={() => setDropdownOpen(true)}
-              onMouseLeave={() => setDropdownOpen(false)}
-              className="text-sm text-gray-200 hover:text-cyan transition-colors flex items-center gap-1"
+        <div className="hidden md:flex items-center gap-1 p-1 bg-charcoal/30 rounded-full border border-white/5 backdrop-blur-sm">
+          {links.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className="relative px-5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors rounded-full group overflow-hidden"
             >
-              Dextora AI
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            {dropdownOpen && (
-              <div
-                className="absolute top-full left-0 mt-2 w-48 bg-charcoal/90 backdrop-blur-md border border-white/10 rounded-lg shadow-lg py-2 z-50"
-                onMouseEnter={() => setDropdownOpen(true)}
-                onMouseLeave={() => setDropdownOpen(false)}
-              >
-                <a href="/#platform" className="block px-4 py-2 text-sm text-gray-200 hover:bg-white/10 hover:text-cyan transition-colors">
-                  Platform Overview
-                </a>
-                <a href="/#features" className="block px-4 py-2 text-sm text-gray-200 hover:bg-white/10 hover:text-cyan transition-colors">
-                  Features
-                </a>
-                <a href="/#personas" className="block px-4 py-2 text-sm text-gray-200 hover:bg-white/10 hover:text-cyan transition-colors">
-                  AI Personas
-                </a>
-                <a href="/#pricing" className="block px-4 py-2 text-sm text-gray-200 hover:bg-white/10 hover:text-cyan transition-colors">
-                  Pricing
-                </a>
-                <a href="/#case-studies" className="block px-4 py-2 text-sm text-gray-200 hover:bg-white/10 hover:text-cyan transition-colors">
-                  Case Studies
-                </a>
-                <Link to="/admission" className="block px-4 py-2 text-sm text-gray-200 hover:bg-white/10 hover:text-cyan transition-colors">
-                  Start Free Trial
-                </Link>
-              </div>
-            )}
-          </div>
+              <span className="relative z-10 font-display tracking-wide">{link.name}</span>
+              <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-cyan to-violet scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+              <span className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-full" />
+            </Link>
+          ))}
         </div>
 
         {/* CTA Button */}
         <div className="flex items-center gap-4">
           <Link
-            to="/admission"
-            className="btn-primary text-sm"
+            to="/login"
+            className="group relative inline-flex items-center justify-center px-6 py-2.5 text-xs font-bold text-white uppercase tracking-widest border border-white/20 rounded-md hover:bg-white/10 hover:border-cyan/50 transition-all duration-300"
           >
-            Begin Trial
+            <span className="relative z-10">Log In</span>
           </Link>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 

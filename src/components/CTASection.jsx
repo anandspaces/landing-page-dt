@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Phone, Video, Rocket } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -81,8 +82,8 @@ const CTASection = () => {
         <div className="cta-cards grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {/* Call CTA */}
           <div className="cta-card glass-card-hover p-8 text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-electric-blue/20 to-soft-cyan/20 border border-electric-blue/30 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
-              📞
+            <div className="w-16 h-16 bg-gradient-to-br from-electric-blue/20 to-soft-cyan/20 border border-electric-blue/30 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+              <Phone className="w-8 h-8 text-electric-blue" />
             </div>
             <h3 className="text-xl font-bold text-white mb-2">Talk to Our Team</h3>
             <p className="text-gray-400 text-sm mb-4">Get guidance from education specialists</p>
@@ -96,8 +97,8 @@ const CTASection = () => {
 
           {/* Demo CTA */}
           <div className="cta-card glass-card-hover p-8 text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-electric-blue/20 to-soft-cyan/20 border border-electric-blue/30 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
-              🎥
+            <div className="w-16 h-16 bg-gradient-to-br from-electric-blue/20 to-soft-cyan/20 border border-electric-blue/30 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+              <Video className="w-8 h-8 text-electric-blue" />
             </div>
             <h3 className="text-xl font-bold text-white mb-2">Request Demo</h3>
             <p className="text-gray-400 text-sm mb-4">See Dextora in action</p>
@@ -111,8 +112,8 @@ const CTASection = () => {
 
           {/* Trial CTA */}
           <div className="cta-card glass-card-hover p-8 text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-electric-blue/20 to-soft-cyan/20 border border-electric-blue/30 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
-              🚀
+            <div className="w-16 h-16 bg-gradient-to-br from-electric-blue/20 to-soft-cyan/20 border border-electric-blue/30 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+              <Rocket className="w-8 h-8 text-electric-blue" />
             </div>
             <h3 className="text-xl font-bold text-white mb-2">Start Free</h3>
             <p className="text-gray-400 text-sm mb-4">7 days, no payment required</p>

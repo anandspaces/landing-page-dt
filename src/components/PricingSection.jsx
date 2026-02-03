@@ -140,9 +140,8 @@ const PricingSection = () => {
             <div
               key={index}
               ref={(el) => (cardsRef.current[index] = el)}
-              className={`group relative preserve-3d pointer-events-auto ${
-                plan.highlighted ? 'md:-translate-y-4' : ''
-              }`}
+              className={`group relative preserve-3d pointer-events-auto ${plan.highlighted ? 'md:-translate-y-4' : ''
+                }`}
             >
               {/* Badge for highlighted plan */}
               {plan.badge && (
@@ -155,11 +154,10 @@ const PricingSection = () => {
 
               {/* Card */}
               <div
-                className={`glass-card p-8 md:p-10 h-full relative overflow-hidden transform transition-all duration-500 group-hover:scale-[1.02] group-hover:-translate-y-2 pointer-events-auto ${
-                  plan.highlighted
+                className={`glass-card p-8 md:p-10 h-full relative overflow-hidden transform transition-all duration-500 group-hover:scale-[1.02] group-hover:-translate-y-2 pointer-events-auto ${plan.highlighted
                     ? 'border-electric-blue/50 shadow-[0_0_50px_rgba(0,212,255,0.2)]'
                     : ''
-                }`}
+                  }`}
               >
                 {/* Plan name */}
                 <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
@@ -199,11 +197,10 @@ const PricingSection = () => {
                 {/* CTA Button */}
                 <a
                   href={plan.link}
-                  className={`block w-full text-center py-4 rounded-full font-semibold transition-all duration-300 ${
-                    plan.highlighted
+                  className={`block w-full text-center py-4 rounded-full font-semibold transition-all duration-300 ${plan.highlighted
                       ? 'bg-gradient-to-r from-electric-blue to-soft-cyan text-deep-navy hover:shadow-[0_0_40px_rgba(0,212,255,0.4)] hover:scale-105'
                       : 'border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-deep-navy'
-                  }`}
+                    }`}
                 >
                   {plan.cta}
                 </a>

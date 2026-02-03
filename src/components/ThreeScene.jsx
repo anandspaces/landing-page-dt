@@ -27,16 +27,16 @@ function FloatingForm() {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const progress = max > 0 ? window.scrollY / max : 0;
       scrollRef.current = progress;
-      
+
       // Calculate scroll velocity
       const now = Date.now();
       const timeDelta = (now - lastScrollTime.current) / 1000;
       const scrollDelta = Math.abs(window.scrollY - lastScrollY.current);
       scrollVelocityRef.current = timeDelta > 0 ? scrollDelta / timeDelta : 0;
-      
+
       lastScrollY.current = window.scrollY;
       lastScrollTime.current = now;
-      
+
       // Decay velocity over time
       setTimeout(() => {
         scrollVelocityRef.current *= 0.95;
@@ -69,7 +69,7 @@ function FloatingForm() {
         // Move object in opposite direction
         const offsetX = -mouse.x * 0.8;
         const offsetY = -mouse.y * 0.8;
-        
+
         targetPositionRef.current = { x: offsetX, y: offsetY, z: 0 };
       } else {
         targetPositionRef.current = { x: 0, y: 0, z: 0 };
@@ -90,13 +90,13 @@ function FloatingForm() {
 
     if (materialRef.current) {
       materialRef.current.color.lerpColors(
-        new THREE.Color('#4fd1ff'),
-        new THREE.Color('#7c7cff'),
+        new THREE.Color('#00f3ff'), // Neon Cyan
+        new THREE.Color('#bc13fe'), // Neon Violet
         scroll
       );
     }
   });
-  
+
   const handlePointerEnter = (e) => {
     e.stopPropagation();
     isHoveringRef.current = true;
@@ -117,9 +117,9 @@ function FloatingForm() {
   };
 
   return (
-    <mesh 
-      ref={meshRef} 
-      geometry={spikyGeometry} 
+    <mesh
+      ref={meshRef}
+      geometry={spikyGeometry}
       position={[0, 0, 0]}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
@@ -131,7 +131,7 @@ function FloatingForm() {
         metalness={0.8}
         roughness={0.2}
         emissiveIntensity={0.6}
-        emissive={'#4fd1ff'}
+        emissive={'#00f3ff'}
       />
     </mesh>
   );

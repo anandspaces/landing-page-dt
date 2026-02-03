@@ -8,40 +8,10 @@ from core.edge_service import EdgeTTSEngine
 import uvicorn
 import threading
 import asyncio
-from contextlib import asynccontextmanager
 
 from fastapi.middleware.cors import CORSMiddleware
 
-# Global instances
-llm_engine = None
-rag_engine = None
-tts_engine = None
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup
-    print("--- STARTING UP: CORS SHOULD BE ACTIVE ---")
-    global llm_engine, rag_engine, tts_engine
-    
-    try:
-        llm_engine = LLMEngine()
-        rag_engine = RAGEngine()
-        tts_engine = EdgeTTSEngine()
-        print("Engines initialized successfully.")
-        
-        # Pre-warm TTS to avoid first-request latency
-        asyncio.create_task(tts_engine.warmup())
-        
-    except Exception as e:
-        print(f"Error initializing engines: {e}")
-        raise
-    
-    yield
-    
-    # Shutdown (cleanup if needed)
-    print("--- SHUTTING DOWN ---")
-
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
@@ -51,8 +21,32 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Global instances
+llm_engine = None
+rag_engine = None
+tts_engine = None
+
 class ChatRequest(BaseModel):
     message: str
+
+@app.on_event("startup")
+async def startup_event():
+    print("--- STARTING UP: CORS SHOULD BE ACTIVE ---")
+    global llm_engine, rag_engine, tts_engine
+    # Initialize engines
+    try:
+        llm_engine = LLMEngine()
+        rag_engine = RAGEngine()
+        tts_engine = EdgeTTSEngine()
+        print(f"Engines initialized successfully. llm={llm_engine}, rag={rag_engine}")
+        
+        # Pre-warm TTS to avoid first-request latency
+        asyncio.create_task(tts_engine.warmup())
+        
+    except Exception as e:
+        print(f"Error initializing engines: {e}")
+        with open("startup_failure.txt", "w") as f:
+            f.write(str(e))
 
 @app.post("/rag/ingest")
 async def ingest_data():
@@ -78,7 +72,9 @@ async def tts_endpoint(request: ChatRequest):
 
 @app.post("/chat")
 async def chat(request: ChatRequest):
+    print(f"Chat Endpoint: llm_engine={llm_engine}, rag_engine={rag_engine}")
     if not llm_engine or not rag_engine:
+        print("Chat Endpoint: Services are NONE.")
         raise HTTPException(status_code=503, detail="Services not initialized")
     
     import time
@@ -96,10 +92,16 @@ async def chat(request: ChatRequest):
     
     # 2. Construct Prompt
     system_prompt = (
-        "You are the Official AI Support Assistant for Dextora AI. "
-        "Use the following Context to answer the user's question. "
-        "Be helpful, friendly, and professional. "
-        "If the answer is not in the Context, say you do not know."
+        "You are Dextora, an advanced AI mentorship platform designed for students, teachers, and schools. "
+        "Your goal is to provide personalized guidance, smart study strategies, and 24/7 support. "
+        "Adhere to the following rules strictly:\n"
+        "1. Answer ONLY using the provided Context. Do NOT use outside knowledge.\n"
+        "2. If the user asks 'Who are you?' or 'What is your name?', reply exactly: "
+        "'My name is Dextora.' followed by a brief 1-sentence summary of what Dextora is (from the context).\n"
+        "If someone asks 'What is Dextora AI', clarify that you are simply 'Dextora' now, but answer the question about your capabilities.\n"
+        "3. If the user greets you (Bi, Hi, Hello, Good Morning, etc.), respond politely and professionally as Dextora, then ask how you can help.\n"
+        "4. If the answer is not in the Context, politely say: 'I can only provide information about Dextora and its dataset. I do not have information on that topic.'\n"
+        "5. Keep responses concise, smart, and professional.\n"
         "\n\nContext:\n" + context_text
     )
     
@@ -111,22 +113,18 @@ async def chat(request: ChatRequest):
     print(f"Prompt constructed. Starting LLM stream...")
     
     # 3. Stream Response
+    # measure time to first byte inside the generator or just log start here
     t2 = time.time()
     print(f"Pre-stream setup took: {t2 - start_time:.2f}s")
     
     return StreamingResponse(llm_engine.stream_chat(messages), media_type="text/event-stream")
 
-@app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "engines": {
-            "llm": llm_engine is not None,
-            "rag": rag_engine is not None,
-            "tts": tts_engine is not None
-        }
-    }
-
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    import os
+    from dotenv import load_dotenv
+    load_dotenv()
+    
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", "8000"))
+    
+    uvicorn.run(app, host=host, port=port)

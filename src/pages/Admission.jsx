@@ -3,263 +3,141 @@ import { useState } from 'react';
 function Admission() {
   const [formData, setFormData] = useState({
     studentName: '',
-    email: '',
-    phone: '',
+    dob: '',
+    gender: '',
     grade: '',
-    course: 'Class 1-12',
+    schoolName: '',
+    educationBoard: '',
+    subjectsStudied: '',
+    competitiveExamGoal: '',
+    weakSubjects: '',
+    strongSubjects: '',
+    preferredLanguage: '',
     parentName: '',
-    message: '',
+    relationship: '',
+    phone: '',
+    email: '',
+    studyTime: '',
+    learningStyle: '',
+    consentAnalysis: false,
+    consentTerms: false
   });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Admission form submitted:', formData);
-    alert('Thank you for your interest! Our admissions team will contact you within 24 hours.');
-    setFormData({
-      studentName: '',
-      email: '',
-      phone: '',
-      grade: '',
-      course: 'Class 1-12',
-      parentName: '',
-      message: '',
-    });
-  };
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    alert('Thank you! Your application has been submitted successfully.');
+    // Reset form logic here if needed
   };
 
   return (
     <div className="relative min-h-screen pt-32 pb-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-electric-blue/10 border border-electric-blue/30 rounded-full mb-6">
-            <span className="w-2 h-2 bg-electric-blue rounded-full animate-pulse" />
-            <span className="text-sm text-electric-blue font-semibold">Start Your Journey</span>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="gradient-text">Admission Process</span>
+      <div className="max-w-4xl mx-auto px-6 md:px-12">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="gradient-text">Student Application</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Begin your AI-powered learning journey. Fill out the form below and our team will guide you through the next steps.
-          </p>
+          <p className="text-gray-400">Join Dextora to transform your learning journey.</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Admission Steps */}
-          <div className="lg:col-span-1 space-y-6">
-            <div className="glass-card p-6">
-              <h2 className="text-xl font-bold text-white mb-6">Admission Steps</h2>
-              
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-br from-electric-blue to-soft-cyan rounded-lg flex items-center justify-center text-deep-navy font-bold flex-shrink-0">
-                    1
-                  </div>
-                  <div>
-                    <h3 className="text-white font-semibold mb-1">Submit Application</h3>
-                    <p className="text-gray-400 text-sm">Fill out the admission form</p>
-                  </div>
-                </div>
+        <form onSubmit={handleSubmit} className="glass-card p-8 md:p-10 space-y-8">
 
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-br from-electric-blue to-soft-cyan rounded-lg flex items-center justify-center text-deep-navy font-bold flex-shrink-0">
-                    2
-                  </div>
-                  <div>
-                    <h3 className="text-white font-semibold mb-1">Initial Assessment</h3>
-                    <p className="text-gray-400 text-sm">Brief learning evaluation</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-br from-electric-blue to-soft-cyan rounded-lg flex items-center justify-center text-deep-navy font-bold flex-shrink-0">
-                    3
-                  </div>
-                  <div>
-                    <h3 className="text-white font-semibold mb-1">Counseling Session</h3>
-                    <p className="text-gray-400 text-sm">Meet with our education specialists</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-br from-electric-blue to-soft-cyan rounded-lg flex items-center justify-center text-deep-navy font-bold flex-shrink-0">
-                    4
-                  </div>
-                  <div>
-                    <h3 className="text-white font-semibold mb-1">Start Learning</h3>
-                    <p className="text-gray-400 text-sm">Begin your personalized journey</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="glass-card p-6">
-              <h3 className="text-lg font-bold text-white mb-3">Questions?</h3>
-              <p className="text-gray-400 text-sm mb-4">
-                Call us for immediate assistance
-              </p>
-              <a
-                href="tel:+918447934906"
-                className="text-electric-blue font-semibold hover:underline"
-              >
-                +91 84479 34906
-              </a>
+          {/* Section 1: Student Details */}
+          <div>
+            <h2 className="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">Student Details</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <input type="text" name="studentName" placeholder="Full Name" value={formData.studentName} onChange={handleChange} required className="input-field" />
+              <input type="date" name="dob" placeholder="Date of Birth" value={formData.dob} onChange={handleChange} required className="input-field" />
+              <select name="gender" value={formData.gender} onChange={handleChange} className="input-field">
+                <option value="">Gender (Optional)</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+              <input type="text" name="grade" placeholder="Class / Grade" value={formData.grade} onChange={handleChange} required className="input-field" />
+              <input type="text" name="schoolName" placeholder="School Name" value={formData.schoolName} onChange={handleChange} required className="input-field" />
+              <input type="text" name="educationBoard" placeholder="Education Board (CBSE, ICSE, etc.)" value={formData.educationBoard} onChange={handleChange} required className="input-field" />
             </div>
           </div>
 
-          {/* Admission Form */}
-          <div className="lg:col-span-2 glass-card p-8">
-            <h2 className="text-2xl font-bold text-white mb-6">Admission Form</h2>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="studentName" className="block text-sm font-medium text-gray-300 mb-2">
-                    Student Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="studentName"
-                    name="studentName"
-                    value={formData.studentName}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-electric-blue transition-colors"
-                    placeholder="Enter student's name"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="parentName" className="block text-sm font-medium text-gray-300 mb-2">
-                    Parent/Guardian Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="parentName"
-                    name="parentName"
-                    value={formData.parentName}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-electric-blue transition-colors"
-                    placeholder="Enter parent's name"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-electric-blue transition-colors"
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
-                    Phone Number *
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-electric-blue transition-colors"
-                    placeholder="+91 XXXXX XXXXX"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="grade" className="block text-sm font-medium text-gray-300 mb-2">
-                    Current Grade/Class *
-                  </label>
-                  <input
-                    type="text"
-                    id="grade"
-                    name="grade"
-                    value={formData.grade}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-electric-blue transition-colors"
-                    placeholder="e.g., Class 10"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="course" className="block text-sm font-medium text-gray-300 mb-2">
-                    Course Interested In *
-                  </label>
-                  <select
-                    id="course"
-                    name="course"
-                    value={formData.course}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-electric-blue transition-colors"
-                  >
-                    <option value="Class 1-12">Class 1-12</option>
-                    <option value="IIT-JEE Preparation">IIT-JEE Preparation</option>
-                    <option value="NEET Preparation">NEET Preparation</option>
-                    <option value="All Programs">All Programs</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                  Additional Information
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={4}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-electric-blue transition-colors resize-none"
-                  placeholder="Any specific learning goals or requirements..."
-                />
-              </div>
-
-              <div className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  required
-                  className="mt-1"
-                />
-                <label htmlFor="terms" className="text-sm text-gray-400">
-                  I agree to the terms and conditions and understand that Dextora AI will process my information to provide educational services. *
-                </label>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full btn-primary"
-              >
-                Submit Application
-              </button>
-            </form>
+          {/* Section 2: Academic Information */}
+          <div>
+            <h2 className="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">Academic Information</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <input type="text" name="subjectsStudied" placeholder="Subjects Studied" value={formData.subjectsStudied} onChange={handleChange} required className="input-field" />
+              <input type="text" name="competitiveExamGoal" placeholder="Competitive Exam Goal (Optional)" value={formData.competitiveExamGoal} onChange={handleChange} className="input-field" />
+              <input type="text" name="weakSubjects" placeholder="Weak Subjects (Optional)" value={formData.weakSubjects} onChange={handleChange} className="input-field" />
+              <input type="text" name="strongSubjects" placeholder="Strong Subjects (Optional)" value={formData.strongSubjects} onChange={handleChange} className="input-field" />
+              <input type="text" name="preferredLanguage" placeholder="Preferred Learning Language" value={formData.preferredLanguage} onChange={handleChange} required className="input-field" />
+            </div>
           </div>
-        </div>
+
+          {/* Section 3: Parent / Guardian Details */}
+          <div>
+            <h2 className="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">Parent / Guardian Details</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <input type="text" name="parentName" placeholder="Parent Name" value={formData.parentName} onChange={handleChange} required className="input-field" />
+              <input type="text" name="relationship" placeholder="Relationship" value={formData.relationship} onChange={handleChange} required className="input-field" />
+              <input type="tel" name="phone" placeholder="Mobile Number" value={formData.phone} onChange={handleChange} required className="input-field" />
+              <input type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} required className="input-field" />
+            </div>
+          </div>
+
+          {/* Section 4: Learning Preferences */}
+          <div>
+            <h2 className="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">Learning Preferences</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <input type="text" name="studyTime" placeholder="Preferred Study Time" value={formData.studyTime} onChange={handleChange} required className="input-field" />
+              <input type="text" name="learningStyle" placeholder="Learning Style (Optional)" value={formData.learningStyle} onChange={handleChange} className="input-field" />
+            </div>
+          </div>
+
+          {/* Section 5: Consent */}
+          <div className="space-y-4 pt-4">
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" name="consentAnalysis" checked={formData.consentAnalysis} onChange={handleChange} required className="mt-1 w-4 h-4 text-electric-blue" />
+              <span className="text-sm text-gray-300">I allow Dextora to analyze learning behavior to personalize education.</span>
+            </label>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" name="consentTerms" checked={formData.consentTerms} onChange={handleChange} required className="mt-1 w-4 h-4 text-electric-blue" />
+              <span className="text-sm text-gray-300">I agree to the Terms & Conditions and Privacy Policy.</span>
+            </label>
+          </div>
+
+          <button type="submit" className="w-full btn-primary py-4 text-lg font-bold">Submit Application</button>
+
+        </form>
       </div>
+      <style>{`
+        .input-field {
+          width: 100%;
+          padding: 0.75rem 1rem;
+          background-color: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 0.5rem;
+          color: white;
+          outline: none;
+          transition: border-color 0.2s;
+        }
+        .input-field:focus {
+          border-color: #00d4ff;
+        }
+        .input-field::placeholder {
+          color: #9ca3af;
+        }
+        select.input-field option {
+          background-color: #1a1a2e;
+          color: white;
+        }
+      `}</style>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -45,11 +46,11 @@ function Contact() {
           <div className="space-y-6">
             <div className="glass-card p-8">
               <h2 className="text-2xl font-bold text-white mb-6">Contact Information</h2>
-              
+
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-electric-blue/20 to-soft-cyan/20 border border-electric-blue/30 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
-                    📞
+                  <div className="w-12 h-12 rounded-full bg-electric-blue/10 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    <Phone className="w-6 h-6 text-electric-blue" />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white mb-1">Phone</h3>
@@ -60,8 +61,8 @@ function Contact() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-electric-blue/20 to-soft-cyan/20 border border-electric-blue/30 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
-                    📧
+                  <div className="w-12 h-12 rounded-full bg-electric-blue/10 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    <Mail className="w-6 h-6 text-electric-blue" />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white mb-1">Email</h3>
@@ -72,8 +73,8 @@ function Contact() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-electric-blue/20 to-soft-cyan/20 border border-electric-blue/30 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
-                    ⏰
+                  <div className="w-12 h-12 rounded-full bg-electric-blue/10 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    <Clock className="w-6 h-6 text-electric-blue" />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white mb-1">Support Hours</h3>
@@ -90,7 +91,7 @@ function Contact() {
                 Our team typically responds within 24 hours. For urgent matters, please call us directly.
               </p>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-electric-blue/30 rounded-full">
-                <span className="text-xs text-gray-400">IIM Lucknow · IIT Kanpur</span>
+                <span className="text-xs text-gray-400">Trusted by Top Educators</span>
               </div>
             </div>
           </div>
@@ -98,7 +99,7 @@ function Contact() {
           {/* Contact Form */}
           <div className="glass-card p-8">
             <h2 className="text-2xl font-bold text-white mb-6">Send us a Message</h2>
-            
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">

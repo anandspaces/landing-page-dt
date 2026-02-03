@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import FullBodyAvatar from '../components/FullBodyAvatar';
-import { Mic, Send } from 'lucide-react';
-import { generateResponse, generateResponseStream } from '../services/llmService';
-import { speakText, resumeAudio } from '../services/ttsService';
+import { Mic, Send, Volume2, VolumeX, Square } from 'lucide-react';
+import { generateResponseStream } from '../services/llmService';
+import { speakText, resumeAudio, setMuted, stopAudio } from '../services/ttsService';
 import { profiler } from '../utils/LatencyProfiler';
 
 function Chat() {
@@ -11,9 +11,11 @@ function Chat() {
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const chatContainerRef = useRef(null);
   const recognitionRef = useRef(null);
   const shouldListenRef = useRef(false); // Track user intention
+  const abortControllerRef = useRef(null); // Track abort controller
 
   // Auto-scroll to bottom of chat
   useEffect(() => {
@@ -29,6 +31,24 @@ function Chat() {
     });
   }, []);
 
+  const handleStop = () => {
+    // 1. Abort LLM Request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+
+    // 2. Stop Audio & Clear Queue
+    stopAudio();
+
+    // 3. Reset State
+    setIsProcessing(false);
+    setIsSpeaking(false);
+
+    // Optional: Add a system message or indicator that it was stopped?
+    // for now just resetting state is enough visual feedback (button reverts)
+  };
+
   const handleSend = async () => {
     if (!inputText.trim()) return;
 
@@ -39,48 +59,80 @@ function Chat() {
     setMessages(prev => [...prev, { role: 'user', text: userText }]);
 
     // Add Placeholder AI Message
-    setMessages(prev => [...prev, { role: 'assistant', text: '...' }]);
+    setMessages(prev => [...prev, { role: 'assistant', text: '' }]);
     setIsProcessing(true);
     setIsSpeaking(true);
+
+    // Create new AbortController
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
 
     try {
       // Stream AI Response
       profiler.start('Pipeline_Total');
+      const messageIndex = messages.length + 1; // Index of the new assistant message
+      let currentFullText = "";
+
       await generateResponseStream(
         userText,
         // On Sentence Ready -> Speak it
         (sentence) => {
           console.log("Speaking sentence:", sentence);
-          speakText(sentence);
+          speakText(sentence, {
+            onStart: (duration) => {
+              // duration is in seconds. If 0 or undefined, default to fast type.
+              const words = sentence.trim().split(/\s+/);
+              const totalTimeMs = (duration || 1.5) * 1000;
+              const msPerWord = totalTimeMs / words.length;
+
+              let wordIndex = 0;
+
+              const typeNextWord = () => {
+                if (wordIndex < words.length) {
+                  currentFullText += (words[wordIndex] + " ");
+
+                  setMessages(prev => {
+                    const newMsgs = [...prev];
+                    const lastMsg = newMsgs[newMsgs.length - 1];
+                    if (lastMsg.role === 'assistant') {
+                      lastMsg.text = currentFullText.trim();
+                    }
+                    return newMsgs;
+                  });
+
+                  wordIndex++;
+                  // Recursive delay for next word
+                  setTimeout(typeNextWord, msPerWord);
+                }
+              };
+
+              // Start typing immediately when audio starts
+              typeNextWord();
+            }
+          });
         },
         // On Complete
         () => {
-          setIsSpeaking(false); // Only unset when full stream done? 
-          // Actually, TTS queue might still be playing.
-          // Ideally `isSpeaking` should listen to TTS queue status.
-          // But for animation trigger, we can keep it true until stream ends + buffer?
-          // Let's just set false here, but the avatar might stop early.
-          // A better `isSpeaking` logic would come from `ttsService` callback, 
-          // but for now, let's keep it simple: speak while generating.
+          setIsSpeaking(false);
           setIsProcessing(false);
           profiler.end('Pipeline_Total');
+          abortControllerRef.current = null;
         },
-        // On Text Update -> Update Chat Bubble
+        // On Text Update -> IGNORE (Don't spoil text before audio)
         (fullText) => {
-          setMessages(prev => {
-            const newMsgs = [...prev];
-            const lastMsg = newMsgs[newMsgs.length - 1];
-            if (lastMsg.role === 'assistant') {
-              lastMsg.text = fullText;
-            }
-            return newMsgs;
-          });
-        }
+          // Do nothing
+        },
+        controller.signal // Pass signal
       );
     } catch (error) {
-      console.error("Chat Error:", error);
+      if (error.name === 'AbortError') {
+        console.log("Generation stopped by user");
+      } else {
+        console.error("Chat Error:", error);
+      }
       setIsProcessing(false);
       setIsSpeaking(false);
+      abortControllerRef.current = null;
     }
   };
 
@@ -117,39 +169,68 @@ function Chat() {
             setMessages(prev => [...prev, { role: 'user', text: speechToText }]);
 
             // 2. Add AI Placeholder
-            setMessages(prev => [...prev, { role: 'assistant', text: '...' }]);
+            setMessages(prev => [...prev, { role: 'assistant', text: '' }]);
 
             // 3. Start Processing
             setIsProcessing(true);
             setIsSpeaking(true);
             profiler.start('Pipeline_Voice_Total');
 
+            const controller = new AbortController();
+            abortControllerRef.current = controller;
+
+            let voiceFullText = "";
+
             await generateResponseStream(
               speechToText,
               // Callback 1: Speak Sentence
-              (sentence) => speakText(sentence),
+              (sentence) => {
+                speakText(sentence, {
+                  onStart: (duration) => {
+                    const words = sentence.trim().split(/\s+/);
+                    const totalTimeMs = (duration || 1.5) * 1000;
+                    const msPerWord = totalTimeMs / words.length;
+
+                    let wordIndex = 0;
+                    const typeWord = () => {
+                      if (wordIndex < words.length) {
+                        voiceFullText += (words[wordIndex] + " ");
+                        setMessages(prev => {
+                          const newMsgs = [...prev];
+                          const lastMsg = newMsgs[newMsgs.length - 1];
+                          if (lastMsg && lastMsg.role === 'assistant') {
+                            lastMsg.text = voiceFullText.trim();
+                          }
+                          return newMsgs;
+                        });
+                        wordIndex++;
+                        setTimeout(typeWord, msPerWord);
+                      }
+                    };
+                    typeWord();
+                  }
+                });
+              },
               // Callback 2: On Complete
               () => {
                 setTimeout(() => setIsSpeaking(false), 2000);
                 setIsProcessing(false);
                 profiler.end('Pipeline_Voice_Total');
+                abortControllerRef.current = null;
               },
-              // Callback 3: Update Chat Text (Streaming)
-              (fullText) => {
-                setMessages(prev => {
-                  const newMsgs = [...prev];
-                  const lastMsg = newMsgs[newMsgs.length - 1];
-                  if (lastMsg && lastMsg.role === 'assistant') {
-                    lastMsg.text = fullText;
-                  }
-                  return newMsgs;
-                });
-              }
+              // Callback 3: Update Chat Text (Streaming) -> IGNORE
+              (fullText) => { },
+              controller.signal
             );
           } catch (error) {
-            console.error("Voice Error:", error);
+            if (error.name === 'AbortError') {
+              console.log("Voice generation stopped by user");
+            } else {
+              console.error("Voice Error:", error);
+            }
             setIsSpeaking(false);
             setIsProcessing(false);
+            abortControllerRef.current = null;
           }
         }
 
@@ -214,7 +295,7 @@ function Chat() {
     <div className="relative w-full h-screen overflow-hidden">
       {/* Foreground Avatar */}
       <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-        
+
         <div className="w-full h-full pointer-events-auto relative z-20">
           <FullBodyAvatar isTalking={isSpeaking} />
         </div>
@@ -223,24 +304,37 @@ function Chat() {
       {/* Chat History (Split View) */}
       <div
         ref={chatContainerRef}
-        className="absolute top-24 inset-x-0 z-40 w-full px-4 md:px-10 h-[65vh] overflow-y-auto no-scrollbar mask-gradient"
+        className="absolute top-24 bottom-32 left-4 md:left-10 z-40 w-full md:w-[450px] overflow-y-auto no-scrollbar mask-gradient pr-4"
       >
         <div className="flex flex-col gap-4 pb-4">
-          {messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
+          {messages.map((msg, idx) => {
+            if (msg.role === 'assistant' && !msg.text) return null;
+            return (
               <div
-                className={`transform transition-all duration-300 max-w-[35%] lg:max-w-[30%] px-6 py-4 rounded-2xl backdrop-blur-xl shadow-2xl text-sm md:text-base leading-relaxed ${msg.role === 'user'
-                  ? 'bg-cyan/20 border border-cyan/40 text-white rounded-tr-sm mr-0 hover:bg-cyan/30'
-                  : 'bg-black/40 border border-white/15 text-offwhite rounded-tl-sm ml-0 hover:bg-black/50'
-                  }`}
+                key={idx}
+                className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                {msg.text}
+                <div
+                  className={`relative transform transition-all duration-300 max-w-[80%] md:max-w-[60%] px-6 py-4 rounded-2xl backdrop-blur-xl shadow-glass text-sm md:text-base leading-relaxed ${msg.role === 'user'
+                    ? 'bg-cyan/10 border border-cyan/30 text-cyan rounded-tr-sm mr-0 hover:bg-cyan/20 shadow-glow-cyan-subtle'
+                    : 'glass-panel text-offwhite rounded-tl-sm ml-0 hover:border-violet/30'
+                    }`}
+                >
+                  <p className="font-mono text-xs opacity-50 mb-1 mb-2 tracking-widest uppercase">
+                    {msg.role === 'user' ? 'You' : 'Dextora'}
+                  </p>
+                  <div className="font-sans font-light">
+                    {msg.text}
+                  </div>
+
+                  {/* Tech accents */}
+                  {msg.role !== 'user' && (
+                    <div className="absolute -left-1 top-4 w-0.5 h-6 bg-violet/50"></div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
           {isProcessing && (
             <div className="flex justify-start w-full">
               <div className="bg-black/40 border border-white/10 px-4 py-2 rounded-full flex gap-2 items-center ml-0">
@@ -255,14 +349,31 @@ function Chat() {
 
       {/* Chat Interface - Input Bar */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-50 w-full max-w-3xl px-6">
-        <div className="flex items-center gap-4 p-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-[0_0_30px_rgba(79,209,255,0.15)] transition-all hover:shadow-[0_0_40px_rgba(79,209,255,0.25)]">
+        <div className="flex items-center gap-4 p-2 rounded-full glass-panel border border-cyan/30 shadow-[0_0_30px_rgba(0,243,255,0.1)] transition-all hover:shadow-[0_0_50px_rgba(0,243,255,0.2)]">
+
+          {/* Mute Button */}
+          <button
+            onClick={() => {
+              const newState = !isMuted;
+              setIsMuted(newState);
+              setMuted(newState);
+            }}
+            className={`p-4 rounded-full border transition-all duration-300 ${isMuted
+              ? 'bg-red-500/20 text-red-500 border-red-500/50'
+              : 'bg-charcoal/50 text-cyan border-cyan/30 hover:bg-cyan/10 hover:shadow-glow-cyan'
+              }`}
+            aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+          >
+            {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
+          </button>
+
 
           {/* Mic Button */}
           <button
             onClick={toggleMic}
             className={`p-4 rounded-full border transition-all duration-300 group ${isListening
-              ? 'bg-red-500/20 border-red-500 text-red-400 animate-pulse'
-              : 'bg-white/5 hover:bg-cyan/20 text-cyan border-white/10'
+              ? 'bg-red-500/20 border-red-500 text-red-400 animate-pulse shadow-[0_0_20px_rgba(239,68,68,0.4)]'
+              : 'bg-charcoal/50 hover:bg-cyan/20 text-cyan border-cyan/30 hover:shadow-glow-cyan'
               }`}
             aria-label="Activate voice input"
           >
@@ -274,24 +385,36 @@ function Chat() {
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Let's sort your query..."
-            className="flex-1 bg-transparent border-none outline-none text-white placeholder-gray-400 text-lg px-2 font-light tracking-wide"
+            onKeyDown={(e) => e.key === 'Enter' && !isProcessing && handleSend()}
+            placeholder="Initialize query..."
+            disabled={isProcessing}
+            className="flex-1 bg-transparent border-none outline-none text-white placeholder-cyan/30 text-lg px-4 font-mono tracking-wide disabled:opacity-50"
           />
 
-          {/* Send Button */}
-          <button
-            onClick={handleSend}
-            disabled={!inputText.trim() || isProcessing}
-            className="p-4 rounded-full bg-gradient-to-r from-cyan to-violet text-black hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[0_0_20px_rgba(79,209,255,0.4)]"
-            aria-label="Send message"
-          >
-            <Send className="w-6 h-6" />
-          </button>
+          {/* Send / Stop Button */}
+          {isProcessing ? (
+            <button
+              onClick={handleStop}
+              className="p-4 rounded-full bg-red-500 text-white hover:bg-red-600 transition-all shadow-[0_0_20px_rgba(239,68,68,0.4)] hover:shadow-[0_0_30px_rgba(239,68,68,0.6)] animate-in zoom-in duration-300"
+              aria-label="Stop generation"
+            >
+              <Square className="w-6 h-6 fill-current" />
+            </button>
+          ) : (
+            <button
+              onClick={handleSend}
+              disabled={!inputText.trim()}
+              className="p-4 rounded-full bg-cyan text-charcoal hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[0_0_20px_rgba(0,243,255,0.4)] hover:shadow-[0_0_30px_rgba(0,243,255,0.6)]"
+              aria-label="Send message"
+            >
+              <Send className="w-6 h-6" />
+            </button>
+          )}
         </div>
       </div>
     </div>
   );
 }
+
 
 export default Chat;

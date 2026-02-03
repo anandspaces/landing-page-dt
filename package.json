@@ -12,6 +12,7 @@
     "@google/generative-ai": "^0.24.1",
     "@react-three/drei": "^9.105.4",
     "@react-three/fiber": "^8.16.2",
+    "framer-motion": "^12.29.2",
     "gsap": "^3.12.5",
     "kokoro-js": "^1.2.1",
     "lenis": "^1.0.42",
