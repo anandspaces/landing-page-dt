@@ -25,9 +25,9 @@ function App() {
           </>
         } />
         <Route path="chat" element={<Chat />} />
-        <Route path="login" element={<Login />} />
         <Route path="latency-test" element={<LatencyTest />} />
       </Route>
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
 }

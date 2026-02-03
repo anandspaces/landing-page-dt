@@ -3,15 +3,15 @@ import { ShieldCheck, Activity, Eye, LineChart } from 'lucide-react';
 const Parent = () => {
     return (
         <div className="relative min-h-screen pt-32 pb-20">
-            <div className="max-w-7xl mx-auto px-6 md:px-12">
+            <div className="w-full lg:max-w-[75%] px-6 md:px-12 lg:pl-24">
                 {/* Header */}
-                <div className="text-center mb-16">
+                <div className="text-center lg:text-left mb-16">
                     <h1 className="text-4xl md:text-6xl font-bold mb-6">
                         <span className="gradient-text">Complete Visibility. Total Trust.</span>
                         <br />
                         <span className="text-white">Better Results.</span>
                     </h1>
-                    <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto lg:mx-0 leading-relaxed">
                         Dextora keeps parents fully informed about their child’s learning journey.
                     </p>
                 </div>

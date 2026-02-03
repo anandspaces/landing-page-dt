@@ -3,15 +3,15 @@ import { ClipboardList, UserCheck, BarChart, BookOpen, Mic, Users } from 'lucide
 const Teacher = () => {
     return (
         <div className="relative min-h-screen pt-32 pb-20">
-            <div className="max-w-7xl mx-auto px-6 md:px-12">
+            <div className="w-full lg:max-w-[75%] px-6 md:px-12 lg:pl-24">
                 {/* Header */}
-                <div className="text-center mb-16">
+                <div className="text-center lg:text-left mb-16">
                     <h1 className="text-4xl md:text-6xl font-bold mb-6">
                         <span className="gradient-text">Become a Super Teacher</span>
                         <br />
                         <span className="text-white">with AI by Your Side</span>
                     </h1>
-                    <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto lg:mx-0 leading-relaxed">
                         As students become smarter with AI, teachers need equally powerful tools.
                         Dextora transforms teachers into high-impact educators by handling workload, analysis, and personalization — so teachers can focus on mentoring.
                     </p>

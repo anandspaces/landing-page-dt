@@ -3,15 +3,15 @@ import { Bot, Youtube, PenTool, Brain, Zap, Shield } from 'lucide-react';
 const Student = () => {
     return (
         <div className="relative min-h-screen pt-32 pb-20">
-            <div className="max-w-7xl mx-auto px-6 md:px-12">
+            <div className="w-full lg:max-w-[75%] px-6 md:px-12 lg:pl-24">
                 {/* Header */}
-                <div className="text-center mb-16">
+                <div className="text-center lg:text-left mb-16">
                     <h1 className="text-4xl md:text-6xl font-bold mb-6">
                         <span className="gradient-text">Turn Into a Super Student</span>
                         <br />
                         <span className="text-white">with AI</span>
                     </h1>
-                    <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto lg:mx-0 leading-relaxed">
                         Dextora is a personal AI tutor that studies how you learn, where you struggle, and how you improve, then designs learning just for you.
                         Students learn directly from their own school textbooks, explained line by line using videos, simulations, stories, comics, and real-life analogies.
                     </p>

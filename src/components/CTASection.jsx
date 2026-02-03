@@ -53,7 +53,7 @@ const CTASection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative section-padding bg-gradient-to-b from-deep-navy/40 via-charcoal/40 to-deep-navy/40 overflow-hidden"
+      className="relative section-padding pb-32 bg-gradient-to-b from-deep-navy/40 via-charcoal/40 to-deep-navy/40 overflow-hidden"
     >
       {/* Animated background gradients */}
       <div className="absolute inset-0 pointer-events-none">
@@ -135,7 +135,7 @@ const CTASection = () => {
             Begin Your Trial
           </a>
           <a
-            href="tel:+918447934906"
+            href="/contact"
             className="btn-outline inline-block text-lg px-12 py-5"
           >
             Get in Touch

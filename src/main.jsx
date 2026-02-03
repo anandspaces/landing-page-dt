@@ -16,6 +16,7 @@ import Parent from './pages/Parent'
 import TermsConditions from './pages/TermsConditions'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import FAQ from './pages/FAQ'
+import Login from './pages/Login'
 import { initTTS } from './services/ttsService';
 
 // Initialize TTS System (Warm up the models early)
@@ -40,6 +41,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="privacy-policy" element={<PrivacyPolicy />} />
           <Route path="faq" element={<FAQ />} />
         </Route>
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

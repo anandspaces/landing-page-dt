@@ -72,7 +72,7 @@ const PricingSection = () => {
       gsap.from('.pricing-header', {
         opacity: 0,
         y: 60,
-        duration: 1,
+        duration: 0.6,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -87,10 +87,10 @@ const PricingSection = () => {
 
         gsap.from(card, {
           opacity: 0,
-          y: 100,
-          rotateX: -20,
-          duration: 1,
-          delay: index * 0.15,
+          y: 60,
+          rotateX: -10,
+          duration: 0.6,
+          delay: index * 0.1,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: card,
@@ -154,16 +154,16 @@ const PricingSection = () => {
 
               {/* Card */}
               <div
-                className={`glass-card p-8 md:p-10 h-full relative overflow-hidden transform transition-all duration-500 group-hover:scale-[1.02] group-hover:-translate-y-2 pointer-events-auto ${plan.highlighted
-                    ? 'border-electric-blue/50 shadow-[0_0_50px_rgba(0,212,255,0.2)]'
-                    : ''
+                className={`glass-card p-8 md:p-10 h-full relative overflow-hidden transform transition-all duration-300 group-hover:scale-[1.02] group-hover:-translate-y-2 pointer-events-auto ${plan.highlighted
+                  ? 'border-electric-blue/50 shadow-[0_0_50px_rgba(0,212,255,0.2)]'
+                  : ''
                   }`}
               >
                 {/* Plan name */}
-                <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                <h3 className="text-2xl font-bold text-white mb-2 relative z-10">{plan.name}</h3>
 
                 {/* Price */}
-                <div className="mb-6">
+                <div className="mb-6 relative z-10">
                   <div className="flex items-baseline gap-2">
                     <span className="text-4xl md:text-5xl font-bold gradient-text">
                       {plan.price}
@@ -173,7 +173,7 @@ const PricingSection = () => {
                 </div>
 
                 {/* Features */}
-                <ul className="space-y-4 mb-8">
+                <ul className="space-y-4 mb-8 relative z-10">
                   {plan.features.map((feature, idx) => (
                     <li key={idx} className="flex items-start gap-3">
                       <svg
@@ -197,20 +197,19 @@ const PricingSection = () => {
                 {/* CTA Button */}
                 <a
                   href={plan.link}
-                  className={`block w-full text-center py-4 rounded-full font-semibold transition-all duration-300 ${plan.highlighted
-                      ? 'bg-gradient-to-r from-electric-blue to-soft-cyan text-deep-navy hover:shadow-[0_0_40px_rgba(0,212,255,0.4)] hover:scale-105'
-                      : 'border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-deep-navy'
+                  className={`block w-full text-center py-4 rounded-full font-semibold transition-all duration-300 relative z-10 ${plan.highlighted
+                    ? 'bg-gradient-to-r from-electric-blue to-soft-cyan text-deep-navy hover:shadow-[0_0_40px_rgba(0,212,255,0.4)] hover:scale-105'
+                    : 'border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-deep-navy'
                     }`}
                 >
                   {plan.cta}
                 </a>
 
-                {/* Gradient overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-electric-blue/0 via-electric-blue/5 to-electric-blue/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
+                {/* Moving blob effect (Motion Animation) */}
+                <div className="absolute -top-[100%] -left-[100%] w-[200%] h-[200%] bg-gradient-to-br from-transparent via-white/5 to-transparent rotate-45 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-700 ease-out pointer-events-none opacity-0 group-hover:opacity-100" />
               </div>
 
-              {/* 3D depth shadow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-electric-blue/10 to-subtle-violet/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 translate-y-4" />
+              {/* Removed blurry opacity fade elements as per user request */}
             </div>
           ))}
         </div>

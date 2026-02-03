@@ -176,7 +176,7 @@ const HeroSection = () => {
           variants={itemVariants}
           className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto lg:mx-0 mb-12 font-light leading-relaxed font-mono"
         >
-          Personalized AI mentorship for Class 1–12, IIT-JEE, NEET, and UPSC.
+          Personalized AI mentorship for Class 1–12, IIT-JEE, NEET and UPSC.
           <br className="hidden md:block" />
           <span className="text-cyan">Research-backed. 24/7 Adaptive.</span>
         </motion.p>
