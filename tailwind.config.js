@@ -32,6 +32,7 @@ export default {
         'glow': 'glow 2s ease-in-out infinite alternate',
         'scanline': 'scanline 8s linear infinite',
         'spin-slow': 'spin 12s linear infinite',
+        'marquee': 'marquee 25s linear infinite',
       },
       boxShadow: {
         'glow-cyan': '0 0 20px rgba(0, 243, 255, 0.5), 0 0 10px rgba(0, 243, 255, 0.3)',
@@ -50,6 +51,10 @@ export default {
         scanline: {
           '0%': { transform: 'translateY(-100%)' },
           '100%': { transform: 'translateY(100%)' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
         },
       },
     },

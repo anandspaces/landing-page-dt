@@ -103,7 +103,7 @@ const CTASection = () => {
             <h3 className="text-xl font-bold text-white mb-2">Request Demo</h3>
             <p className="text-gray-400 text-sm mb-4">See Dextora in action</p>
             <a
-              href="/admission"
+              href="/contact"
               className="text-electric-blue font-semibold hover:underline"
             >
               Book a Session
@@ -118,7 +118,7 @@ const CTASection = () => {
             <h3 className="text-xl font-bold text-white mb-2">Start Free</h3>
             <p className="text-gray-400 text-sm mb-4">7 days, no payment required</p>
             <a
-              href="/admission"
+              href="/contact"
               className="text-electric-blue font-semibold hover:underline"
             >
               Begin Now
@@ -129,7 +129,7 @@ const CTASection = () => {
         {/* Primary CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
           <a
-            href="/admission"
+            href="/contact"
             className="btn-primary inline-block text-lg px-12 py-5"
           >
             Begin Your Trial

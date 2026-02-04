@@ -19,11 +19,11 @@ const Navigation = () => {
 
   const links = [
     { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
     { name: 'Student', path: '/student' },
+    { name: 'School', path: '/school' },
     { name: 'Teacher', path: '/teacher' },
     { name: 'Parent', path: '/parent' },
-    { name: 'School', path: '/school' },
+    { name: 'About', path: '/about' },
   ];
 
   return (
@@ -79,12 +79,7 @@ const Navigation = () => {
 
         {/* CTA Button */}
         <div className="flex items-center gap-4">
-          <Link
-            to="/login"
-            className="group relative inline-flex items-center justify-center px-6 py-2.5 text-xs font-bold text-white uppercase tracking-widest border border-white/20 rounded-md hover:bg-white/10 hover:border-cyan/50 transition-all duration-300"
-          >
-            <span className="relative z-10">Log In</span>
-          </Link>
+          {/* Login button removed */}
         </div>
       </div>
     </motion.nav>

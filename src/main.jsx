@@ -7,7 +7,6 @@ import Home from './pages/Home'
 import About from './pages/About'
 import Services from './pages/Services'
 import Contact from './pages/Contact'
-import Admission from './pages/Admission'
 import Chat from './pages/Chat'
 import Student from './pages/Student'
 import Teacher from './pages/Teacher'
@@ -16,7 +15,6 @@ import Parent from './pages/Parent'
 import TermsConditions from './pages/TermsConditions'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import FAQ from './pages/FAQ'
-import Login from './pages/Login'
 import { initTTS } from './services/ttsService';
 
 // Initialize TTS System (Warm up the models early)
@@ -31,7 +29,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="about" element={<About />} />
           <Route path="services" element={<Services />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="admission" element={<Admission />} />
+
           <Route path="chat" element={<Chat />} />
           <Route path="student" element={<Student />} />
           <Route path="teacher" element={<Teacher />} />
@@ -41,7 +39,6 @@ createRoot(document.getElementById('root')).render(
           <Route path="privacy-policy" element={<PrivacyPolicy />} />
           <Route path="faq" element={<FAQ />} />
         </Route>
-        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

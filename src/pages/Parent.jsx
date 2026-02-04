@@ -1,8 +1,57 @@
+import { useEffect, useRef } from 'react';
 import { ShieldCheck, Activity, Eye, LineChart } from 'lucide-react';
+import ImageCrawler from '../components/ImageCrawler';
+
+// Images
+import imgWeeklyReports from '../assets/parent/weekly-reports.png';
+import imgAiFocus from '../assets/parent/ai-focus.png';
+import imgStrengthWeakness from '../assets/parent/strength-weakness.png';
+import imgPredictedPerformance from '../assets/parent/predicted-performance.png';
+import imgSafeEnvironment from '../assets/parent/safe-environment.png';
+
+const parentImages = [imgWeeklyReports, imgAiFocus, imgStrengthWeakness, imgPredictedPerformance, imgSafeEnvironment];
 
 const Parent = () => {
+    const crawlerRef = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                // If the crawler section is intersecting (visible), hide the avatar
+                // We dispatch a custom event that Layout.jsx listens for
+                const isVisible = entry.isIntersecting;
+
+                // If visible, we want to HIDE the avatar (visible: false)
+                // If not visible, we want to SHOW the avatar (visible: true)
+                const shouldAvatarBeVisible = !isVisible;
+
+                window.dispatchEvent(new CustomEvent('toggle-avatar', {
+                    detail: { visible: shouldAvatarBeVisible }
+                }));
+            },
+            {
+                threshold: 0.1, // Trigger as soon as 10% is visible
+                rootMargin: "100px 0px 0px 0px" // Trigger slightly before it enters content area
+            }
+        );
+
+        if (crawlerRef.current) {
+            observer.observe(crawlerRef.current);
+        }
+
+        return () => {
+            if (crawlerRef.current) {
+                observer.unobserve(crawlerRef.current);
+            }
+            // Reset to visible when leaving page
+            window.dispatchEvent(new CustomEvent('toggle-avatar', {
+                detail: { visible: true }
+            }));
+        };
+    }, []);
+
     return (
-        <div className="relative min-h-screen pt-32 pb-20">
+        <div className="relative min-h-screen pt-32 pb-0">
             <div className="w-full lg:max-w-[75%] px-6 md:px-12 lg:pl-24">
                 {/* Header */}
                 <div className="text-center lg:text-left mb-16">
@@ -57,13 +106,27 @@ const Parent = () => {
                                 </li>
                             ))}
                         </ul>
-                        <div className="mt-12 text-center">
-                            <p className="text-xl font-bold text-white italic">
-                                "Parents don’t just see marks. They see real learning."
-                            </p>
-                        </div>
                     </div>
                 </div>
+
+                {/* Quote Section */}
+                <div className="glass-card p-8 md:p-12 rounded-2xl relative overflow-hidden text-center mb-32">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-electric-blue to-purple-500"></div>
+                    <div className="mt-4 text-center">
+                        <p className="text-xl font-bold text-white italic">
+                            "Parents don’t just see marks. They see real learning."
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {/* FULL WIDTH CRAWLER SECTION */}
+            <div ref={crawlerRef} className="w-full relative z-50 py-20 bg-gradient-to-b from-charcoal/0 via-charcoal to-charcoal/0 backdrop-blur-sm">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Complete Peace of Mind</h2>
+                    <p className="text-gray-400 text-xl">See how we include you in the journey</p>
+                </div>
+                <ImageCrawler images={parentImages} speed={40} />
             </div>
         </div>
     );

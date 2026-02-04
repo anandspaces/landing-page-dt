@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Float, PerspectiveCamera } from '@react-three/drei';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 /**
  * Digital Grid Background
@@ -186,13 +187,13 @@ const HeroSection = () => {
           variants={itemVariants}
           className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 mb-20"
         >
-          <a
-            href="/admission"
+          <Link
+            to="/contact"
             className="group relative inline-flex items-center justify-center px-8 py-4 bg-cyan text-charcoal font-bold uppercase tracking-widest clip-path-slant hover:bg-white transition-all duration-300"
           >
             <span className="relative z-10">Start Free Trial</span>
             <div className="absolute inset-0 bg-white/50 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-          </a>
+          </Link>
 
           <a
             href="#workflow"
@@ -227,9 +228,7 @@ const HeroSection = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
       >
-        <div className="w-[1px] h-20 bg-gradient-to-b from-cyan to-transparent mx-auto relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1/2 bg-white animate-scanline"></div>
-        </div>
+
       </motion.div>
     </section>
   );

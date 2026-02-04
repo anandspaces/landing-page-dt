@@ -7,7 +7,6 @@ import PricingSection from './components/PricingSection';
 import RoadmapSection from './components/RoadmapSection';
 import CTASection from './components/CTASection';
 import Footer from './components/Footer';
-import Login from './pages/Login';
 
 function App() {
   return (
@@ -27,7 +26,6 @@ function App() {
         <Route path="chat" element={<Chat />} />
         <Route path="latency-test" element={<LatencyTest />} />
       </Route>
-      <Route path="/login" element={<Login />} />
     </Routes>
   );
 }

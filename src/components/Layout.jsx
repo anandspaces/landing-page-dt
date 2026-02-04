@@ -8,20 +8,36 @@ import Footer from './Footer';
 
 function Layout() {
   const [showAvatar, setShowAvatar] = useState(true);
+  const [forceHidden, setForceHidden] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
+    const handleAvatarToggle = (e) => {
+      if (typeof e.detail.visible === 'boolean') {
+        // If visible is false, we are forcing it hidden
+        setForceHidden(!e.detail.visible);
+        // Also update the immediate state
+        setShowAvatar(e.detail.visible);
+      }
+    };
+
+    window.addEventListener('toggle-avatar', handleAvatarToggle);
+
     const handleScroll = () => {
+      // If forcefully hidden by a page component, ignore scroll logic to "show" it
+      if (forceHidden) {
+        setShowAvatar(false);
+        return;
+      }
+
       // Calculate how far down the page we are
       const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
       const fullHeight = document.documentElement.scrollHeight;
 
-      // Calculate the distance from the bottom
+      // Calculate the distance from the bottom to hide near footer
       const distanceFromBottom = fullHeight - (scrollY + windowHeight);
 
-      // If we are within 20% of the bottom (or a specific pixel value like 400px), hide it
-      // Adjust '400' based on your footer's actual height
       if (distanceFromBottom < 400) {
         setShowAvatar(false);
       } else {
@@ -30,11 +46,13 @@ function Layout() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    // Run once on load to set initial state
-    handleScroll();
+    handleScroll(); // Initial check
 
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('toggle-avatar', handleAvatarToggle);
+    };
+  }, [forceHidden]); // Re-bind scroll handler when forceHidden changes
 
   return (
     <div className="bg-charcoal text-offwhite min-h-screen relative overflow-x-hidden">
@@ -50,7 +68,7 @@ function Layout() {
         <Outlet />
       </main>
 
-      {/* Avatar Widget with smooth slide-out logic */}
+      {/* Avatar Widget */}
       <div
         className={`fixed top-1/2 right-0 -translate-y-1/2 z-[70] hidden lg:block transition-all duration-700 ease-in-out pointer-events-none ${showAvatar && location.pathname !== '/chat'
           ? 'opacity-100 translate-x-0'

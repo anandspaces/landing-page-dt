@@ -97,4 +97,18 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Marquee Animation */
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  .animate-marquee {
+    animation: marquee 25s linear infinite;
+  }
+
+  .hover\:pause-animation:hover .animate-marquee {
+    animation-play-state: paused;
+  }
 }

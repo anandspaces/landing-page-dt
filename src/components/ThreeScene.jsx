@@ -90,8 +90,8 @@ function FloatingForm() {
 
     if (materialRef.current) {
       materialRef.current.color.lerpColors(
-        new THREE.Color('#00f3ff'), // Neon Cyan
-        new THREE.Color('#bc13fe'), // Neon Violet
+        new THREE.Color('#00f3ff'), // Bright Neon Cyan
+        new THREE.Color('#bd00ff'), // Bright Neon Violet
         scroll
       );
     }
@@ -128,10 +128,12 @@ function FloatingForm() {
       <meshStandardMaterial
         ref={materialRef}
         wireframe={true}
-        metalness={0.8}
+        metalness={0.6}
         roughness={0.2}
         emissiveIntensity={0.6}
         emissive={'#00f3ff'}
+        transparent={true}
+        opacity={0.6}
       />
     </mesh>
   );
@@ -148,7 +150,7 @@ const ThreeScene = () => {
   }, []);
 
   return (
-    <div ref={canvasContainerRef} className="w-full h-full" style={{ pointerEvents: 'auto' }}>
+    <div ref={canvasContainerRef} className="w-full h-full opacity-100 blur-[2px] pointer-events-auto filter saturate-100 contrast-100">
       <Canvas
         camera={{ position: [0, 0, 10], fov: 55 }}
         gl={{ antialias: true, alpha: true }}
@@ -156,9 +158,9 @@ const ThreeScene = () => {
         style={{ pointerEvents: 'auto' }}
       >
         <color attach="background" args={[0, 0, 0, 0]} />
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[5, 5, 5]} intensity={1.1} />
-        <directionalLight position={[-4, -2, -4]} intensity={0.6} />
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[5, 5, 5]} intensity={1.0} />
+        <directionalLight position={[-4, -2, -4]} intensity={0.5} />
         <FloatingForm />
       </Canvas>
     </div>

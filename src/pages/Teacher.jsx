@@ -1,8 +1,52 @@
-import { ClipboardList, UserCheck, BarChart, BookOpen, Mic, Users } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { ClipboardList, UserCheck, BarChart, BookOpen, Mic, Users, CheckCircle } from 'lucide-react';
+import ImageCrawler from '../components/ImageCrawler';
+
+// Images
+import imgLessonPlanning from '../assets/teacher/lesson-planning.png';
+import imgAutomatedGrading from '../assets/teacher/automated-grading.png';
+import imgClassroomIntelligence from '../assets/teacher/classroom-intelligence.png';
+import imgInfiniteCanvas from '../assets/teacher/infinite-canvas.png';
+import imgStudentInsight from '../assets/teacher/student-insight.png';
+
+const teacherImages = [imgLessonPlanning, imgAutomatedGrading, imgClassroomIntelligence, imgInfiniteCanvas, imgStudentInsight];
 
 const Teacher = () => {
+    const crawlerRef = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                const isVisible = entry.isIntersecting;
+                const shouldAvatarBeVisible = !isVisible; // Hide avatar when crawler is visible
+
+                window.dispatchEvent(new CustomEvent('toggle-avatar', {
+                    detail: { visible: shouldAvatarBeVisible }
+                }));
+            },
+            {
+                threshold: 0.1,
+                rootMargin: "100px 0px 0px 0px"
+            }
+        );
+
+        if (crawlerRef.current) {
+            observer.observe(crawlerRef.current);
+        }
+
+        return () => {
+            if (crawlerRef.current) {
+                observer.unobserve(crawlerRef.current);
+            }
+            // Reset to visible when leaving
+            window.dispatchEvent(new CustomEvent('toggle-avatar', {
+                detail: { visible: true }
+            }));
+        };
+    }, []);
+
     return (
-        <div className="relative min-h-screen pt-32 pb-20">
+        <div className="relative min-h-screen pt-32 pb-0">
             <div className="w-full lg:max-w-[75%] px-6 md:px-12 lg:pl-24">
                 {/* Header */}
                 <div className="text-center lg:text-left mb-16">
@@ -76,7 +120,7 @@ const Teacher = () => {
                 </div>
 
                 {/* Result Section */}
-                <div className="text-center bg-gradient-to-r from-electric-blue/10 to-purple-500/10 p-12 rounded-3xl border border-white/10">
+                <div className="text-center bg-gradient-to-r from-electric-blue/10 to-purple-500/10 p-12 rounded-3xl border border-white/10 mb-32">
                     <h2 className="text-2xl font-bold text-white mb-8">Result for Teachers</h2>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                         <div className="text-electric-blue font-semibold">Less repetitive work</div>
@@ -88,6 +132,15 @@ const Teacher = () => {
                         "With Dextora, teachers don’t get replaced — they get upgraded."
                     </p>
                 </div>
+            </div>
+
+            {/* FULL WIDTH CRAWLER SECTION */}
+            <div ref={crawlerRef} className="w-full relative z-50 py-20 bg-gradient-to-b from-charcoal/0 via-charcoal to-charcoal/0 backdrop-blur-sm">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Supercharge Your Teaching</h2>
+                    <p className="text-gray-400 text-xl">See the future of education management</p>
+                </div>
+                <ImageCrawler images={teacherImages} speed={40} />
             </div>
         </div>
     );

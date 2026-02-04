@@ -1,5 +1,20 @@
+import { useRef, useEffect } from 'react';
 import { ClipboardList, Target, Bot, BarChart, Users, GraduationCap } from 'lucide-react';
 import { motion } from 'framer-motion';
+import ImageCrawler from './ImageCrawler';
+
+// Glob import all images from the 4 asset folders
+const studentImages = import.meta.glob('../assets/student/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' });
+const parentImages = import.meta.glob('../assets/parent/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' });
+const teacherImages = import.meta.glob('../assets/teacher/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' });
+const schoolImages = import.meta.glob('../assets/school/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' });
+
+const allImages = [
+  ...Object.values(studentImages),
+  ...Object.values(parentImages),
+  ...Object.values(teacherImages),
+  ...Object.values(schoolImages)
+];
 
 const workflowSteps = [
   {
@@ -41,8 +56,41 @@ const workflowSteps = [
 ];
 
 const WorkflowSection = () => {
+  const crawlerRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // When crawler is visible, HIDE avatar
+        const shouldAvatarBeVisible = !entry.isIntersecting;
+        window.dispatchEvent(new CustomEvent('toggle-avatar', {
+          detail: { visible: shouldAvatarBeVisible }
+        }));
+      },
+      { threshold: 0.1, rootMargin: "100px 0px 0px 0px" }
+    );
+
+    if (crawlerRef.current) {
+      observer.observe(crawlerRef.current);
+    }
+
+    return () => {
+      if (crawlerRef.current) observer.unobserve(crawlerRef.current);
+      // Reset avatar to visible when unmounting or leaving
+      window.dispatchEvent(new CustomEvent('toggle-avatar', {
+        detail: { visible: true }
+      }));
+    };
+  }, []);
+
   return (
     <section id="workflow" className="relative py-32 bg-charcoal overflow-hidden">
+
+      {/* GLOBAL IMAGE CRAWLER */}
+      <div ref={crawlerRef} className="w-full relative z-20 mb-32">
+        <ImageCrawler images={allImages} speed={100} />
+      </div>
+
       {/* Connecting Line for Desktop */}
       <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan/30 to-transparent hidden lg:block" />
 
