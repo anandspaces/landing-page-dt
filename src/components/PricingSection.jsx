@@ -198,7 +198,7 @@ const PricingSection = () => {
                 <a
                   href={plan.link}
                   className={`block w-full text-center py-4 rounded-full font-semibold transition-all duration-300 relative z-10 ${plan.highlighted
-                    ? 'bg-gradient-to-r from-electric-blue to-soft-cyan text-deep-navy hover:shadow-[0_0_40px_rgba(0,212,255,0.4)] hover:scale-105'
+                    ? 'bg-gradient-to-r from-electric-blue to-soft-cyan text-deep-navy border-2 border-white hover:shadow-[0_0_40px_rgba(0,212,255,0.4)] hover:scale-105'
                     : 'border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-deep-navy'
                     }`}
                 >
@@ -215,10 +215,12 @@ const PricingSection = () => {
         </div>
 
         {/* Bottom note */}
-        <div className="mt-12 text-center">
-          <p className="text-gray-400">
-            All plans include 7-day free trial • No credit card required • Cancel anytime
-          </p>
+        <div className="mt-16 text-center">
+          <div className="inline-block px-6 py-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
+            <p className="text-gray-200 font-medium tracking-wide text-sm md:text-base">
+              <span className="text-cyan">✦</span> All plans include 7-day free trial <span className="mx-2 text-white/20">•</span> No credit card required <span className="mx-2 text-white/20">•</span> Cancel anytime
+            </p>
+          </div>
         </div>
       </div>
     </section>
