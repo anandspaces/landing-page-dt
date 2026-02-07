@@ -71,26 +71,39 @@ const formatImageName = (url) => {
 };
 
 const Card = ({ img, idx }) => {
-    const name = formatImageName(img);
+    // Handle both string URLs and object structures
+    const isObject = typeof img === 'object';
+    const imgSrc = isObject ? img.img : img;
+    const imgName = isObject && img.name ? img.name : formatImageName(imgSrc);
+    const brief = isObject ? img.brief : null;
+
+    const name = imgName;
 
     return (
-        <div className="flex-shrink-0 flex flex-col items-center gap-4 group cursor-default">
+        <div className="flex-shrink-0 flex flex-col items-center gap-2 group cursor-default">
             <div
                 className="relative rounded-xl overflow-hidden shadow-2xl transition-transform hover:scale-105 duration-300 border border-white/5"
                 style={{ width: '400px', height: '225px' }} // 16:9 aspect ratio
             >
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
                 <img
-                    src={img}
+                    src={imgSrc}
                     alt={name || `Feature ${idx}`}
                     className="w-full h-full object-cover rounded-xl"
                     loading="lazy"
                 />
             </div>
 
-            <p className="text-gray-300 font-medium tracking-wide text-lg text-center group-hover:text-cyan transition-colors duration-300">
-                {name}
-            </p>
+            <div className="text-center mt-2">
+                <p className="text-gray-300 font-medium tracking-wide text-lg group-hover:text-cyan transition-colors duration-300">
+                    {name}
+                </p>
+                {brief && (
+                    <p className="text-gray-400 text-sm font-light mt-1 whitespace-pre-line leading-snug">
+                        {brief}
+                    </p>
+                )}
+            </div>
         </div>
     );
 }

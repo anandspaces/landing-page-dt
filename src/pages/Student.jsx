@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Bot, Youtube, PenTool, Brain, Zap, Shield, Sparkles } from 'lucide-react';
 import ImageCrawler from '../components/ImageCrawler';
 import ScrollRevealHeading from '../components/ScrollRevealHeading';
+import ZigZagCrawler from '../components/ZigZagCrawler';
 
 // Images
 import imgLineByLine from '../assets/student/line-by-line.png';
@@ -16,7 +17,13 @@ import stickerConfidence from '../assets/student/stickers/confidence.png';
 import stickerMemory from '../assets/student/stickers/stronger-memory.png';
 import stickerFear from '../assets/student/stickers/reduced-fear.png';
 
-const studentImages = [imgLineByLine, imgDoubtSolving, imgAiVideos, imgHandwrittenNotes, imgSmartQuizzes];
+const studentImages = [
+    { img: imgLineByLine, brief: "Detailed explanations\nEasy to grasp" },
+    { img: imgDoubtSolving, brief: "Instant help\nAnytime, anywhere" },
+    { img: imgAiVideos, brief: "Visual learning\nEngaging content" },
+    { img: imgHandwrittenNotes, brief: "Start learning\nWith clarity" },
+    { img: imgSmartQuizzes, brief: "Test yourself\nImprove faster" }
+];
 
 const benefits = [
     {
@@ -107,21 +114,18 @@ const Student = () => {
                 </div>
 
                 {/* Features Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-                    {[
-                        { icon: <PenTool className="w-8 h-8 text-electric-blue" />, title: "Line-by-line Teaching", desc: "Line-by-line teaching from school books" },
-                        { icon: <Brain className="w-8 h-8 text-electric-blue" />, title: "Instant Doubt Solving", desc: "Text, voice, & camera support for immediate help" },
-                        { icon: <Youtube className="w-8 h-8 text-electric-blue" />, title: "AI Videos & Animations", desc: "AI-generated videos, animations & simulations" },
-                        { icon: <PenTool className="w-8 h-8 text-electric-blue" />, title: "Handwritten Notes", desc: "Hyper-realistic handwritten notes" },
-                        { icon: <Zap className="w-8 h-8 text-electric-blue" />, title: "Smart Quizzes", desc: "Smart quizzes & adaptive tests" },
-                        { icon: <Shield className="w-8 h-8 text-electric-blue" />, title: "Safe Environment", desc: "Safe, distraction-free academic environment" }
-                    ].map((feature, idx) => (
-                        <div key={idx} className="glass-card p-6 rounded-xl border border-white/10 hover:border-electric-blue/30 transition-all">
-                            <div className="mb-4">{feature.icon}</div>
-                            <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
-                            <p className="text-gray-400">{feature.desc}</p>
-                        </div>
-                    ))}
+                {/* Features ZigZag Crawler */}
+                <div className="mb-32">
+                    <ZigZagCrawler
+                        items={[
+                            { image: imgLineByLine, title: "Line-by-line Teaching", desc: "Line-by-line teaching from school books" },
+                            { image: imgDoubtSolving, title: "Instant Doubt Solving", desc: "Text, voice, & camera support for immediate help" },
+                            { image: imgAiVideos, title: "AI Videos & Animations", desc: "AI-generated videos, animations & simulations" },
+                            { image: imgHandwrittenNotes, title: "Handwritten Notes", desc: "Hyper-realistic handwritten notes" },
+                            { image: imgSmartQuizzes, title: "Smart Quizzes", desc: "Smart quizzes & adaptive tests" }
+                        ]}
+                        speed={60}
+                    />
                 </div>
 
                 {/* Benefits Section */}

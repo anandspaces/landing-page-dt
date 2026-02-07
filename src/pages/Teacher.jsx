@@ -10,7 +10,13 @@ import imgClassroomIntelligence from '../assets/teacher/classroom-intelligence.p
 import imgInfiniteCanvas from '../assets/teacher/infinite-canvas.png';
 import imgStudentInsight from '../assets/teacher/student-insight.png';
 
-const teacherImages = [imgLessonPlanning, imgAutomatedGrading, imgClassroomIntelligence, imgInfiniteCanvas, imgStudentInsight];
+const teacherImages = [
+    { img: imgLessonPlanning, brief: "Automated planning\nSave time daily" },
+    { img: imgAutomatedGrading, brief: "Instant results\nZero manual effort" },
+    { img: imgClassroomIntelligence, brief: "Smart insights\nBetter engagement" },
+    { img: imgInfiniteCanvas, brief: "Limitless space\nFor your ideas" },
+    { img: imgStudentInsight, brief: "Deep understanding\nPersonalized care" }
+];
 
 const Teacher = () => {
     const crawlerRef = useRef(null);

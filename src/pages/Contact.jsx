@@ -5,6 +5,7 @@ function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    countryCode: '+91',
     phone: '',
     message: '',
   });
@@ -18,10 +19,21 @@ function Contact() {
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    if (name === 'phone') {
+      // Allow only numbers and limit to 10 digits
+      const numericValue = value.replace(/[^0-9]/g, '').slice(0, 10);
+      setFormData({
+        ...formData,
+        [name]: numericValue,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   return (
@@ -128,6 +140,8 @@ function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                  title="Please enter a valid email address (e.g., user@example.com)"
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-electric-blue transition-colors"
                   placeholder="your.email@example.com"
                 />
@@ -137,15 +151,34 @@ function Contact() {
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
                   Phone Number
                 </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-electric-blue transition-colors"
-                  placeholder="+91 XXXXX XXXXX"
-                />
+                <div className="flex gap-4">
+                  <select
+                    name="countryCode"
+                    value={formData.countryCode}
+                    onChange={handleChange}
+                    className="w-24 px-3 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-electric-blue transition-colors appearance-none cursor-pointer"
+                  >
+                    <option value="+91" className="text-black">IN +91</option>
+                    <option value="+1" className="text-black">US +1</option>
+                    <option value="+44" className="text-black">UK +44</option>
+                    <option value="+61" className="text-black">AU +61</option>
+                    <option value="+81" className="text-black">JP +81</option>
+                    <option value="+86" className="text-black">CN +86</option>
+                  </select>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    pattern="[0-9]{10}"
+                    maxLength={10}
+                    title="Please enter exactly 10 digits"
+                    className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-electric-blue transition-colors"
+                    placeholder="XXXXXXXXXX"
+                  />
+                </div>
               </div>
 
               <div>

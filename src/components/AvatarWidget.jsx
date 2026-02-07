@@ -1,12 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Bot } from 'lucide-react';
+
 function AvatarWidget() {
   const containerRef = useRef(null);
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [isHovering, setIsHovering] = useState(false);
-  const [showChatOption, setShowChatOption] = useState(false);
   const hasWavedRef = useRef(false);
 
   useEffect(() => {
@@ -259,7 +256,6 @@ function AvatarWidget() {
         };
 
         const handleClick = () => {
-          setShowChatOption(prev => !prev);
           if (!mixer) return;
 
           const wave = actions['Wave'] || actions['wave'];
@@ -383,25 +379,8 @@ function AvatarWidget() {
       {/* Dialogue Box & Chat Option */}
       {/* Bot Chat Icon */}
       {/* Permanent display to avoid flickering */}
-      <button
-        onClick={() => navigate('/chat')}
-        className="absolute bottom-4 right-4 z-50 group"
-        aria-label="Chat with Dextora"
-        style={{ pointerEvents: 'auto' }}
-      >
-        {/* Pulse effect */}
-        <div className="absolute inset-0 bg-cyan rounded-full animate-ping opacity-20 group-hover:opacity-40 duration-1000" />
-
-        {/* Icon Container */}
-        <div className="relative bg-charcoal border border-cyan/50 p-4 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.4)] group-hover:shadow-[0_0_30px_rgba(34,211,238,0.6)] group-hover:scale-110 transition-all duration-300">
-          <Bot className="w-8 h-8 text-cyan group-hover:text-white transition-colors duration-300" />
-        </div>
-
-        {/* Simple tooltip */}
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-          <span className="text-cyan text-xs font-mono tracking-widest bg-charcoal/90 px-2 py-1 rounded border border-cyan/20">CHAT</span>
-        </div>
-      </button>
+      {/* Dialogue Box & Chat Option */}
+      {/* Bot Chat Icon removed - moved to Layout.jsx */}
 
       <div className="relative">
         {/* Aura Effect for Home Page */}

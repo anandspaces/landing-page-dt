@@ -10,11 +10,51 @@ const parentImages = import.meta.glob('../assets/parent/*.{png,jpg,jpeg,webp}', 
 const teacherImages = import.meta.glob('../assets/teacher/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' });
 const schoolImages = import.meta.glob('../assets/school/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' });
 
+// Briefs mapping keyed by filename (without extension)
+const briefs = {
+  // Student
+  "line-by-line": "Detailed explanations\nEasy to grasp",
+  "doubt-solving": "Instant help\nAnytime, anywhere",
+  "ai-videos": "Visual learning\nEngaging content",
+  "handwritten-notes": "Start learning\nWith clarity",
+  "smart-quizzes": "Test yourself\nImprove faster",
+  // Parent
+  "weekly-reports": "Stay updated\nTrack progress",
+  "ai-focus": "Monitor attention\nImprove focus",
+  "strength-weakness": "Know gaps\nTarget growth",
+  "predicted-performance": "Future insights\nPlan ahead",
+  "safe-environment": "Secure learning\nPeace of mind",
+  // Teacher
+  "lesson-planning": "Automated planning\nSave time daily",
+  "automated-grading": "Instant results\nZero manual effort",
+  "classroom-intelligence": "Smart insights\nBetter engagement",
+  "infinite-canvas": "Limitless space\nFor your ideas",
+  "student-insight": "Deep understanding\nPersonalized care",
+  // School
+  "ai-lms": "Smart management\nEffortless admin",
+  "performance-analytics": "Deep data\nActionable insights",
+  "report-cards": "Auto-generated\nDetailed feedback",
+  "teacher-assistant": "Support staff\nEmpowered teaching",
+  "competitive-edge": "Stay ahead\nLead the future"
+};
+
+// Helper to process glob imports into { img, brief } objects
+const processImages = (globImports) => {
+  return Object.entries(globImports).map(([path, url]) => {
+    // Extract filename from path (e.g. "../assets/student/line-by-line.png" -> "line-by-line")
+    const filename = path.split('/').pop().split('.')[0];
+    return {
+      img: url,
+      brief: briefs[filename] || null
+    };
+  });
+};
+
 const allImages = [
-  ...Object.values(studentImages),
-  ...Object.values(parentImages),
-  ...Object.values(teacherImages),
-  ...Object.values(schoolImages)
+  ...processImages(studentImages),
+  ...processImages(parentImages),
+  ...processImages(teacherImages),
+  ...processImages(schoolImages)
 ];
 
 const workflowSteps = [

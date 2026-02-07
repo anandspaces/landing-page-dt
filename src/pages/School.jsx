@@ -10,7 +10,13 @@ import imgReportCards from '../assets/school/report-cards.png';
 import imgTeacherAssistant from '../assets/school/teacher-assistant.png';
 import imgCompetitiveEdge from '../assets/school/competitive-edge.png';
 
-const schoolImages = [imgAiLms, imgPerformanceAnalytics, imgReportCards, imgTeacherAssistant, imgCompetitiveEdge];
+const schoolImages = [
+    { img: imgAiLms, brief: "Smart management\nEffortless admin" },
+    { img: imgPerformanceAnalytics, brief: "Deep data\nActionable insights" },
+    { img: imgReportCards, brief: "Auto-generated\nDetailed feedback" },
+    { img: imgTeacherAssistant, brief: "Support staff\nEmpowered teaching" },
+    { img: imgCompetitiveEdge, brief: "Stay ahead\nLead the future" }
+];
 
 const School = () => {
     const crawlerRef = useRef(null);

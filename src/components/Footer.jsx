@@ -34,11 +34,10 @@ const Footer = () => {
   return (
     <footer
       id="contact"
-      className="relative bg-black/90 overflow-hidden"
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0.90)' }}
+      className="relative bg-transparent overflow-hidden"
     >
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-black z-0" />
+      {/* Background gradient overlay - stronger black for footer */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/90 to-transparent z-0" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-electric-blue/5 rounded-full blur-3xl z-0" />
       <div className="absolute top-0 right-0 w-96 h-96 bg-subtle-violet/5 rounded-full blur-3xl z-0" />
 
@@ -165,8 +164,7 @@ const Footer = () => {
 
 
 
-        {/* Divider */}
-        <div className="border-t border-white/10 mb-8" />
+
 
         {/* Bottom section */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">

@@ -10,7 +10,13 @@ import imgStrengthWeakness from '../assets/parent/strength-weakness.png';
 import imgPredictedPerformance from '../assets/parent/predicted-performance.png';
 import imgSafeEnvironment from '../assets/parent/safe-environment.png';
 
-const parentImages = [imgWeeklyReports, imgAiFocus, imgStrengthWeakness, imgPredictedPerformance, imgSafeEnvironment];
+const parentImages = [
+    { img: imgWeeklyReports, brief: "Stay updated\nTrack progress" },
+    { img: imgAiFocus, brief: "Monitor attention\nImprove focus" },
+    { img: imgStrengthWeakness, brief: "Know gaps\nTarget growth" },
+    { img: imgPredictedPerformance, brief: "Future insights\nPlan ahead" },
+    { img: imgSafeEnvironment, brief: "Secure learning\nPeace of mind" }
+];
 
 const Parent = () => {
     const crawlerRef = useRef(null);
