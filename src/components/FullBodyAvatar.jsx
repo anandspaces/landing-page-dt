@@ -286,12 +286,17 @@ function FullBodyAvatar({ isTalking }) {
 
   return (
     <div className="relative w-full h-full flex items-center justify-center rounded-2xl">
-      {isLoading && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 gap-4">
-          <div className="w-20 h-20 border-4 border-cyan border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-white text-2xl font-semibold">Loading avatar...</p>
-        </div>
-      )}
+      {/* LOADING GIF OVERLAY */}
+      <div
+        className={`absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-opacity duration-1000 ease-in-out ${isLoading ? 'opacity-100' : 'opacity-0'}`}
+      >
+        <img
+          src="/Breathing-Gif.gif"
+          alt="Loading..."
+          className="w-full h-full object-contain scale-[0.85] brightness-[0.6]"
+        />
+      </div>
+
       {error && (
         <div className="absolute inset-0 flex flex-col items-center justify-center z-20 gap-4 bg-red-900/20">
           <div className="text-white text-center px-4">
@@ -304,9 +309,11 @@ function FullBodyAvatar({ isTalking }) {
           </div>
         </div>
       )}
+
+      {/* 3D CANVAS CONTAINER */}
       <div
         ref={containerRef}
-        className="w-full h-full"
+        className={`w-full h-full transition-opacity duration-1000 ease-in-out ${isLoading ? 'opacity-0' : 'opacity-100'}`}
       />
     </div>
   );

@@ -34,7 +34,7 @@ const Footer = () => {
   return (
     <footer
       id="contact"
-      className="relative bg-black/90 border-t border-white/10 overflow-hidden"
+      className="relative bg-black/90 overflow-hidden"
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.90)' }}
     >
       {/* Background gradient overlay */}
@@ -57,7 +57,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-4">
-              An AI-powered learning platform for Class 1–12, IIT-JEE, NEET, and UPSC. Built with academic rigor and advanced methodologies.
+              An AI-powered learning platform for Class 1–12, IIT-JEE, NEET and UPSC. Built with academic rigor and advanced methodologies.
             </p>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-electric-blue/30 rounded-full">
               <span className="text-xs text-gray-400">Trusted by Top Institutes</span>
@@ -74,23 +74,28 @@ const Footer = () => {
                 </a>
               </li>
               <li>
+                <a href="/student" className="text-gray-400 hover:text-electric-blue transition-colors text-sm">
+                  Student
+                </a>
+              </li>
+              <li>
+                <a href="/school" className="text-gray-400 hover:text-electric-blue transition-colors text-sm">
+                  School
+                </a>
+              </li>
+              <li>
+                <a href="/teacher" className="text-gray-400 hover:text-electric-blue transition-colors text-sm">
+                  Teacher
+                </a>
+              </li>
+              <li>
+                <a href="/parent" className="text-gray-400 hover:text-electric-blue transition-colors text-sm">
+                  Parent
+                </a>
+              </li>
+              <li>
                 <a href="/about" className="text-gray-400 hover:text-electric-blue transition-colors text-sm">
                   About
-                </a>
-              </li>
-              <li>
-                <a href="/services" className="text-gray-400 hover:text-electric-blue transition-colors text-sm">
-                  Services
-                </a>
-              </li>
-              <li>
-                <a href="/contact" className="text-gray-400 hover:text-electric-blue transition-colors text-sm">
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a href="/contact" className="text-gray-400 hover:text-electric-blue transition-colors text-sm">
-                  Admission
                 </a>
               </li>
             </ul>
@@ -120,6 +125,11 @@ const Footer = () => {
                   NEET Preparation
                 </a>
               </li>
+              <li>
+                <a href="#" className="text-gray-400 hover:text-electric-blue transition-colors text-sm">
+                  UPSC Preparation
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -127,27 +137,27 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Contact Us</h4>
             <ul className="space-y-3">
-              <li className="flex items-start gap-2">
-                <Phone className="w-4 h-4 text-electric-blue mt-1" />
+              <li className="flex items-center gap-3">
+                <Phone className="w-4 h-4 text-electric-blue shrink-0" />
                 <a href="tel:+918447934906" className="text-gray-400 hover:text-electric-blue transition-colors text-sm">
                   +91 84479 34906
                 </a>
               </li>
-              <li className="flex items-start gap-2">
-                <Mail className="w-4 h-4 text-electric-blue mt-1" />
+              <li className="flex items-center gap-3">
+                <Mail className="w-4 h-4 text-electric-blue shrink-0" />
                 <a href="mailto:info@dextora.ai" className="text-gray-400 hover:text-electric-blue transition-colors text-sm">
                   info@dextora.ai
                 </a>
               </li>
-              <li className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-electric-blue mt-1" />
+              <li className="flex items-center gap-3">
+                <MapPin className="w-4 h-4 text-electric-blue shrink-0" />
                 <span className="text-gray-400 text-sm">
                   Innovation Centre, Lucknow
                 </span>
               </li>
-              <li className="flex items-start gap-2">
-                <Clock className="w-4 h-4 text-electric-blue mt-1" />
-                <span className="text-gray-400 text-sm">24/7 Support</span>
+              <li className="flex items-center gap-3">
+                <Clock className="w-4 h-4 text-electric-blue shrink-0" />
+                <span className="text-gray-400 text-sm">24X7 Support</span>
               </li>
             </ul>
           </div>

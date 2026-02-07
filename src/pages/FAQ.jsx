@@ -16,7 +16,7 @@ const faqs = [
     },
     {
         question: "How does the AI doubt solving work?",
-        answer: "You can ask doubts via text, voice, or by clicking a picture of your question. Our AI understands the context and provides a step-by-step explanation instantly, 24/7."
+        answer: "You can ask doubts via text, voice, or by clicking a picture of your question. Our AI understands the context and provides a step-by-step explanation instantly, 24X7."
     },
     {
         question: "Is my data safe with Dextora?",

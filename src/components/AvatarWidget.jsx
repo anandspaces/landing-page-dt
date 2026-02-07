@@ -64,10 +64,67 @@ function AvatarWidget() {
         dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
         loader.setDRACOLoader(dracoLoader);
 
-        const loadGLB = (url) => {
-          return new Promise((resolve, reject) => {
-            loader.load(url, resolve, undefined, reject);
-          });
+        // Helper to load GLTF with Cache API
+        const loadGLB = async (url) => {
+          try {
+            const cacheName = 'avatar-cache-v1';
+            let blob;
+
+            // Try to find in cache first
+            if ('caches' in window) {
+              try {
+                const cache = await caches.open(cacheName);
+                const cachedResponse = await cache.match(url);
+
+                if (cachedResponse) {
+                  console.log(`Loading ${url} from cache`);
+                  blob = await cachedResponse.blob();
+                } else {
+                  console.log(`Downloading ${url} and caching...`);
+                  const response = await fetch(url);
+                  if (!response.ok) throw new Error(`Fetch failed: ${response.statusText}`);
+
+                  // Clone response to put in cache
+                  cache.put(url, response.clone());
+                  blob = await response.blob();
+                }
+              } catch (e) {
+                console.warn('Cache API error, falling back to network', e);
+                // Fallback to fetch if cache fails
+                const response = await fetch(url);
+                blob = await response.blob();
+              }
+            } else {
+              // Fallback for browsers without Cache API
+              const response = await fetch(url);
+              blob = await response.blob();
+            }
+
+            // Create object URL from blob
+            const objectUrl = URL.createObjectURL(blob);
+
+            return new Promise((resolve, reject) => {
+              loader.load(
+                objectUrl,
+                (gltf) => {
+                  // Clean up blob URL after loading to free memory
+                  // URL.revokeObjectURL(objectUrl); 
+                  resolve(gltf);
+                },
+                undefined,
+                (error) => {
+                  reject(error);
+                }
+              );
+            });
+
+          } catch (err) {
+            console.error(`Error loading ${url}:`, err);
+            // Last resort fallback
+            return new Promise((resolve, reject) => {
+              loader.load(url, resolve, undefined, reject);
+            });
+          }
         };
 
         let gltf, waveGltf;
@@ -285,6 +342,9 @@ function AvatarWidget() {
         };
         animate();
 
+        // Mark as loaded!
+        setIsLoading(false);
+
         // Cleanup
         return () => {
           cancelAnimationFrame(frameId);
@@ -348,9 +408,23 @@ function AvatarWidget() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-cyan/5 blur-[80px] rounded-full animate-pulse delay-0 transition-all duration-1000 mix-blend-screen pointer-events-none -z-10" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] bg-cyan/10 blur-[50px] rounded-full animate-pulse delay-150 transition-all duration-1000 mix-blend-screen pointer-events-none -z-10" />
 
+        {/* LOADING STATE - BREATHING GIF */}
+        {/* We keep this visible until isLoading is false, then fade it out */}
+        <div
+          className={`absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-opacity duration-700 ease-in-out ${isLoading ? 'opacity-100' : 'opacity-0'}`}
+        >
+          <img
+            src="/Breathing-Gif.gif"
+            alt="Loading..."
+            className="w-full h-full object-contain scale-[1.8] brightness-[0.6]"
+          />
+        </div>
+
+        {/* 3D CONTAINER */}
+        {/* We fade this IN when loading is done */}
         <div
           ref={containerRef}
-          className="w-[300px] h-[600px] rounded-xl overflow-hidden cursor-pointer relative z-10"
+          className={`w-[300px] h-[600px] rounded-xl overflow-hidden cursor-pointer relative z-10 transition-opacity duration-700 ease-in-out ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         />
       </div>
     </div>

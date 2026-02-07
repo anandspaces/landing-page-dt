@@ -100,8 +100,13 @@
 
   /* Marquee Animation */
   @keyframes marquee {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(-100%); }
+    0% {
+      transform: translateX(0%);
+    }
+
+    100% {
+      transform: translateX(-100%);
+    }
   }
 
   .animate-marquee {
@@ -110,5 +115,19 @@
 
   .hover\:pause-animation:hover .animate-marquee {
     animation-play-state: paused;
+  }
+}
+
+@keyframes smoothFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
   }
 }

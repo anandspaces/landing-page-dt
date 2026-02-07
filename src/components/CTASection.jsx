@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Phone, Video, Rocket } from 'lucide-react';
+import ScrollRevealHeading from './ScrollRevealHeading';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,7 +54,7 @@ const CTASection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative section-padding pb-32 bg-gradient-to-b from-deep-navy/40 via-charcoal/40 to-deep-navy/40 overflow-hidden"
+      className="relative section-padding pb-32 bg-gradient-to-b from-black via-charcoal to-black overflow-hidden"
     >
       {/* Animated background gradients */}
       <div className="absolute inset-0 pointer-events-none">
@@ -66,11 +67,17 @@ const CTASection = () => {
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Main CTA */}
         <div className="cta-content text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="gradient-text">Start Learning Smarter</span>
-            <br />
-            <span className="text-white">with AI Mentorship</span>
-          </h2>
+          <div className="mb-6">
+            <ScrollRevealHeading
+              text="Start Learning Smarter"
+              className="text-4xl md:text-6xl font-display font-bold mb-2 md:mb-4"
+              textClassName="gradient-text"
+            />
+            <ScrollRevealHeading
+              text="with AI Mentorship"
+              className="text-4xl md:text-6xl font-display font-bold text-white"
+            />
+          </div>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
             Join students achieving better results through personalized AI-powered learning.
             <br />

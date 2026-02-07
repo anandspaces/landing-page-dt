@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { ShieldCheck, Activity, Eye, LineChart } from 'lucide-react';
 import ImageCrawler from '../components/ImageCrawler';
+import ScrollRevealHeading from '../components/ScrollRevealHeading';
 
 // Images
 import imgWeeklyReports from '../assets/parent/weekly-reports.png';
@@ -52,13 +53,22 @@ const Parent = () => {
 
     return (
         <div className="relative min-h-screen pt-32 pb-0">
-            <div className="w-full lg:max-w-[75%] px-6 md:px-12 lg:pl-24">
+            <div className="w-full lg:max-w-[90%] px-6 md:px-12 lg:pl-24">
                 {/* Header */}
-                <div className="text-center lg:text-left mb-16">
-                    <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                        <span className="gradient-text">Complete Visibility. Total Trust.</span>
-                        <br />
-                        <span className="text-white">Better Results.</span>
+                <div className="text-center lg:text-left mb-15">
+                    <h1 className="text-4xl md:text-6xl font-display font-bold mb-6 flex flex-col gap-2">
+                        <ScrollRevealHeading
+                            text="Complete Visibility Total Trust."
+                            level="span"
+                            className="block"
+                            textClassName="gradient-text"
+                        />
+                        <ScrollRevealHeading
+                            text="Better Results."
+                            level="span"
+                            className="block"
+                            textClassName="text-white"
+                        />
                     </h1>
                     <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto lg:mx-0 leading-relaxed">
                         Dextora keeps parents fully informed about their child’s learning journey.

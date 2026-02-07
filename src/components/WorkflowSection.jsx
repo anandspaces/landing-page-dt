@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import { ClipboardList, Target, Bot, BarChart, Users, GraduationCap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ImageCrawler from './ImageCrawler';
+import ScrollRevealHeading from './ScrollRevealHeading';
 
 // Glob import all images from the 4 asset folders
 const studentImages = import.meta.glob('../assets/student/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' });
@@ -32,7 +33,7 @@ const workflowSteps = [
   {
     number: '03',
     title: 'AI Tutor & Vision Intelligence',
-    description: '24/7 adaptive mentorship with real-time feedback and vision-based posture analysis.',
+    description: '24X7 adaptive mentorship with real-time feedback and vision-based posture analysis.',
     icon: <Bot className="w-6 h-6 text-cyan" />,
   },
   {
@@ -102,9 +103,11 @@ const WorkflowSection = () => {
             viewport={{ once: true }}
             className="inline-block"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
-              <span className="gradient-text">Your Path to Success</span>
-            </h2>
+            <ScrollRevealHeading
+              text="Your Path to Success"
+              className="text-4xl md:text-5xl font-display font-bold mb-4"
+              textClassName="gradient-text"
+            />
             <p className="text-gray-400 font-mono text-sm max-w-2xl mx-auto lg:mx-0">
               SYSTEMATIC . ADAPTIVE . INTELLIGENT
             </p>

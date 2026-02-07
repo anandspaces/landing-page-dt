@@ -49,21 +49,50 @@ const ImageCrawler = ({ images = [], speed = 50, direction = 'left', className =
     );
 };
 
-const Card = ({ img, idx }) => (
-    <div
-        className="flex-shrink-0 relative group rounded-xl overflow-hidden shadow-2xl transition-transform hover:scale-105 duration-300 border border-white/5"
-        style={{ width: '400px', height: '225px' }} // 16:9 aspect ratio
-    >
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex items-end p-4">
-            {/* Optional overlay could go here */}
+// Helper to extract and format image name from URL
+const formatImageName = (url) => {
+    if (!url) return '';
+
+    // Extract filename from path/URL
+    // Handles scenarios like: /assets/my-image.png, /assets/my-image.hash.png
+    const filename = url.split('/').pop().split('.')[0];
+
+    // Decode URI component in case of encoded characters
+    const decodedName = decodeURIComponent(filename);
+
+    // Replace hyphens/underscores with spaces
+    // Remove potential hash or IDs if they are separated by dots (already handled by split('.')[0])
+    // But sometimes vite adds hash like name-HASH.ext or name.HASH.ext
+    // Let's assume standard kebab-case or snake_case for the name part
+    const cleanName = decodedName.replace(/[-_]/g, ' ');
+
+    // Capitalize first letter of each word
+    return cleanName.replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
+const Card = ({ img, idx }) => {
+    const name = formatImageName(img);
+
+    return (
+        <div className="flex-shrink-0 flex flex-col items-center gap-4 group cursor-default">
+            <div
+                className="relative rounded-xl overflow-hidden shadow-2xl transition-transform hover:scale-105 duration-300 border border-white/5"
+                style={{ width: '400px', height: '225px' }} // 16:9 aspect ratio
+            >
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                <img
+                    src={img}
+                    alt={name || `Feature ${idx}`}
+                    className="w-full h-full object-cover rounded-xl"
+                    loading="lazy"
+                />
+            </div>
+
+            <p className="text-gray-300 font-medium tracking-wide text-lg text-center group-hover:text-cyan transition-colors duration-300">
+                {name}
+            </p>
         </div>
-        <img
-            src={img}
-            alt={`Feature ${idx}`}
-            className="w-full h-full object-cover rounded-xl"
-            loading="lazy"
-        />
-    </div>
-)
+    );
+}
 
 export default ImageCrawler;

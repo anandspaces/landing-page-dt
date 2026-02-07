@@ -6,6 +6,7 @@ const Navigation = () => {
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
+  const location = useLocation();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious();
@@ -64,17 +65,27 @@ const Navigation = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-1 p-1 bg-charcoal/30 rounded-full border border-white/5 backdrop-blur-sm">
-          {links.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className="relative px-5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors rounded-full group overflow-hidden"
-            >
-              <span className="relative z-10 font-display tracking-wide">{link.name}</span>
-              <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-cyan to-violet scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-              <span className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-full" />
-            </Link>
-          ))}
+          {links.map((link) => {
+            const isActive = location.pathname === link.path;
+
+            return (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`relative px-5 py-2 text-sm font-medium transition-colors rounded-full group overflow-hidden ${isActive ? 'text-white' : 'text-gray-300 hover:text-white'
+                  }`}
+              >
+                <span className="relative z-10 font-display tracking-wide">{link.name}</span>
+                <span
+                  className={`absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-cyan to-violet transition-transform origin-left duration-300 ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    }`}
+                />
+                <span className={`absolute inset-0 bg-white/5 transition-opacity rounded-full ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                  }`}
+                />
+              </Link>
+            );
+          })}
         </div>
 
         {/* CTA Button */}

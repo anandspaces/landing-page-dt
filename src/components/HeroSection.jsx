@@ -179,7 +179,7 @@ const HeroSection = () => {
         >
           Personalized AI mentorship for Class 1–12, IIT-JEE, NEET and UPSC.
           <br className="hidden md:block" />
-          <span className="text-cyan">Research-backed. 24/7 Adaptive.</span>
+          <span className="text-cyan">Research-backed. 24X7 Adaptive.</span>
         </motion.p>
 
         {/* CTA Buttons */}
@@ -211,7 +211,7 @@ const HeroSection = () => {
           {[
             { val: "50%", label: "Faster Learning" },
             { val: "30%", label: "Better Grades" },
-            { val: "24/7", label: "AI Mentorship" }
+            { val: "24X7", label: "AI Mentorship" }
           ].map((stat, idx) => (
             <div key={idx} className="glass-card p-6 text-center group hover:bg-charcoal/60 transition-colors">
               <div className="text-3xl md:text-5xl font-display font-bold gradient-text mb-2 drop-shadow-md group-hover:scale-110 transition-transform duration-300">{stat.val}</div>

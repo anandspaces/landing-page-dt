@@ -54,10 +54,20 @@ function Layout() {
     };
   }, [forceHidden]); // Re-bind scroll handler when forceHidden changes
 
+  const getVisualType = (pathname) => {
+    if (pathname.includes('/student')) return 'student';
+    if (pathname.includes('/parent')) return 'parent';
+    if (pathname.includes('/school')) return 'school';
+    if (pathname.includes('/teacher')) return 'teacher';
+    return 'default';
+  };
+
+  const visualType = getVisualType(location.pathname);
+
   return (
     <div className="bg-charcoal text-offwhite min-h-screen relative overflow-x-hidden">
       <div className="fixed inset-0 z-10 pointer-events-none">
-        <ThreeScene />
+        <ThreeScene visualType={visualType} />
       </div>
 
       <div className="relative z-[60]">

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { Bot, Youtube, PenTool, Brain, Zap, Shield } from 'lucide-react';
+import { Bot, Youtube, PenTool, Brain, Zap, Shield, Sparkles } from 'lucide-react';
 import ImageCrawler from '../components/ImageCrawler';
+import ScrollRevealHeading from '../components/ScrollRevealHeading';
 
 // Images
 import imgLineByLine from '../assets/student/line-by-line.png';
@@ -9,7 +10,36 @@ import imgAiVideos from '../assets/student/ai-videos.png';
 import imgHandwrittenNotes from '../assets/student/handwritten-notes.png';
 import imgSmartQuizzes from '../assets/student/smart-quizzes.png';
 
+// Stickers
+import stickerUnderstanding from '../assets/student/stickers/better-understanding.png';
+import stickerConfidence from '../assets/student/stickers/confidence.png';
+import stickerMemory from '../assets/student/stickers/stronger-memory.png';
+import stickerFear from '../assets/student/stickers/reduced-fear.png';
+
 const studentImages = [imgLineByLine, imgDoubtSolving, imgAiVideos, imgHandwrittenNotes, imgSmartQuizzes];
+
+const benefits = [
+    {
+        title: "Better Understanding",
+        desc: "Not rote learning",
+        icon: Brain
+    },
+    {
+        title: "Confidence",
+        desc: "More focus and confidence",
+        icon: Zap
+    },
+    {
+        title: "Stronger Memory",
+        desc: "Faster revision",
+        icon: Sparkles
+    },
+    {
+        title: "Reduced Fear",
+        desc: "Reduced exam fear",
+        icon: Shield
+    }
+];
 
 const Student = () => {
     const crawlerRef = useRef(null);
@@ -56,10 +86,19 @@ const Student = () => {
             <div className="w-full lg:max-w-[75%] px-6 md:px-12 lg:pl-24">
                 {/* Header */}
                 <div className="text-center lg:text-left mb-16">
-                    <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                        <span className="gradient-text">Turn Into a Super Student</span>
-                        <br />
-                        <span className="text-white">with AI</span>
+                    <h1 className="text-4xl md:text-6xl font-display font-bold mb-6 flex flex-col gap-2">
+                        <ScrollRevealHeading
+                            text="Turn Into a Super Student"
+                            level="span"
+                            className="block"
+                            textClassName="gradient-text"
+                        />
+                        <ScrollRevealHeading
+                            text="with AI"
+                            level="span"
+                            className="block"
+                            textClassName="text-white"
+                        />
                     </h1>
                     <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto lg:mx-0 leading-relaxed">
                         Dextora is a personal AI tutor that studies how you learn, where you struggle, and how you improve, then designs learning just for you.
@@ -86,26 +125,35 @@ const Student = () => {
                 </div>
 
                 {/* Benefits Section */}
-                <div className="glass-card p-8 md:p-12 rounded-2xl relative overflow-hidden text-center mb-32">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-electric-blue to-purple-500"></div>
-                    <h2 className="text-3xl font-bold text-white mb-8">Student Benefits</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div className="p-4 bg-white/5 rounded-lg">
-                            <h3 className="text-lg font-semibold text-electric-blue mb-2">Better Understanding</h3>
-                            <p className="text-gray-400 text-sm">Not rote learning</p>
-                        </div>
-                        <div className="p-4 bg-white/5 rounded-lg">
-                            <h3 className="text-lg font-semibold text-electric-blue mb-2">Confidence</h3>
-                            <p className="text-gray-400 text-sm">More focus and confidence</p>
-                        </div>
-                        <div className="p-4 bg-white/5 rounded-lg">
-                            <h3 className="text-lg font-semibold text-electric-blue mb-2">Stronger Memory</h3>
-                            <p className="text-gray-400 text-sm">Faster revision</p>
-                        </div>
-                        <div className="p-4 bg-white/5 rounded-lg">
-                            <h3 className="text-lg font-semibold text-electric-blue mb-2">Reduced Fear</h3>
-                            <p className="text-gray-400 text-sm">Reduced exam fear</p>
-                        </div>
+                {/* Benefits Section - Zig Zag Stickers */}
+                <div className="mb-32">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-4">
+                            Student <span className="gradient-text">Benefits</span>
+                        </h2>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto px-4">
+                        {benefits.map((item, index) => (
+                            <div
+                                key={index}
+                                className="group relative p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-cyan/50 transition-all duration-300 hover:-translate-y-2 backdrop-blur-sm overflow-hidden"
+                            >
+                                {/* Hover Gradient */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-cyan/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                                {/* Icon */}
+                                <div className="relative z-10 mb-6 inline-flex p-4 rounded-2xl bg-cyan/10 text-cyan group-hover:scale-110 transition-transform duration-300">
+                                    <item.icon size={32} strokeWidth={1.5} />
+                                </div>
+
+                                {/* Text */}
+                                <div className="relative z-10">
+                                    <h3 className="text-xl font-display font-bold text-white mb-2 group-hover:text-cyan transition-colors">{item.title}</h3>
+                                    <p className="text-gray-400 font-mono text-sm leading-relaxed">{item.desc}</p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

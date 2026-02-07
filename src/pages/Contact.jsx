@@ -78,7 +78,7 @@ function Contact() {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white mb-1">Support Hours</h3>
-                    <p className="text-gray-400">24/7 AI-Powered Support</p>
+                    <p className="text-gray-400">24X7 Available</p>
                     <p className="text-gray-400 text-sm">Human support: Mon-Fri, 9AM-6PM IST</p>
                   </div>
                 </div>

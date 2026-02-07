@@ -1,4 +1,8 @@
-import { Bot, Eye, Users, BarChart } from 'lucide-react';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Brain, Users, Globe, Award, Sparkles, Target, Zap } from 'lucide-react';
+import Footer from '../components/Footer';
+import ScrollRevealHeading from '../components/ScrollRevealHeading';
 
 
 function About() {
@@ -17,10 +21,19 @@ function About() {
               <span className="w-2 h-2 bg-electric-blue rounded-full animate-pulse" />
               <span className="text-sm text-electric-blue font-semibold">Our Vision</span>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              We Are Redefining <br />
-              <span className="gradient-text">Education with AI</span>
-            </h1>
+            <div className="mb-6">
+              <ScrollRevealHeading
+                level="h1"
+                text="We Are Redefining"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
+              />
+              <ScrollRevealHeading
+                level="h1"
+                text="Education with AI"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
+                textClassName="gradient-text"
+              />
+            </div>
             <p className="text-lg text-gray-300 mb-6 leading-relaxed">
               Education has remained unchanged for decades, while students have changed completely.
               Dextora was created to solve this gap by building a personal AI tutor for every student, connected directly to their books, syllabus, learning behavior, and future goals.

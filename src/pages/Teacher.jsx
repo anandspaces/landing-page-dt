@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { ClipboardList, UserCheck, BarChart, BookOpen, Mic, Users, CheckCircle } from 'lucide-react';
 import ImageCrawler from '../components/ImageCrawler';
+import ScrollRevealHeading from '../components/ScrollRevealHeading';
 
 // Images
 import imgLessonPlanning from '../assets/teacher/lesson-planning.png';
@@ -50,10 +51,19 @@ const Teacher = () => {
             <div className="w-full lg:max-w-[75%] px-6 md:px-12 lg:pl-24">
                 {/* Header */}
                 <div className="text-center lg:text-left mb-16">
-                    <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                        <span className="gradient-text">Become a Super Teacher</span>
-                        <br />
-                        <span className="text-white">with AI by Your Side</span>
+                    <h1 className="text-4xl md:text-6xl font-display font-bold mb-6 flex flex-col gap-2">
+                        <ScrollRevealHeading
+                            text="Become a Super Teacher"
+                            level="span"
+                            className="block"
+                            textClassName="gradient-text"
+                        />
+                        <ScrollRevealHeading
+                            text="with AI by Your Side"
+                            level="span"
+                            className="block"
+                            textClassName="text-white"
+                        />
                     </h1>
                     <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto lg:mx-0 leading-relaxed">
                         As students become smarter with AI, teachers need equally powerful tools.

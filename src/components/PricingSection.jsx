@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ScrollRevealHeading from './ScrollRevealHeading';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,7 +54,7 @@ const pricingPlans = [
       'Everything in Half Yearly',
       'Dedicated AI Coach',
       'Career Pathways',
-      '24/7 Phone Support',
+      '24X7 Phone Support',
       'Personalized Strategy',
     ],
     cta: 'Unlock Excellence',
@@ -108,7 +109,7 @@ const PricingSection = () => {
     <section
       id="pricing"
       ref={sectionRef}
-      className="relative section-padding bg-gradient-to-b from-dark-slate/40 via-charcoal/40 to-deep-navy/40 overflow-hidden"
+      className="relative section-padding pb-40 bg-gradient-to-b from-charcoal via-charcoal to-black overflow-hidden"
     >
       {/* Background effects */}
       <div className="absolute inset-0 gradient-bg-1 opacity-40 pointer-events-none" />
@@ -126,9 +127,11 @@ const PricingSection = () => {
             <span className="w-2 h-2 bg-electric-blue rounded-full animate-pulse" />
             <span className="text-sm text-electric-blue font-semibold">Pricing Plans</span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="gradient-text">Choose Your Plan</span>
-          </h2>
+          <ScrollRevealHeading
+            text="Choose Your Plan"
+            className="text-4xl md:text-6xl font-display font-bold mb-6"
+            textClassName="gradient-text"
+          />
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Select the tier that aligns with your academic goals. All plans include AI mentorship and core learning tools.
           </p>

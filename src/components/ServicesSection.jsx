@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { Bot, Eye, Users, Target } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
+import ScrollRevealHeading from './ScrollRevealHeading';
 
 const services = [
   {
@@ -93,14 +94,11 @@ const ServicesSection = () => {
             <span className="text-xs font-mono text-cyan uppercase tracking-widest">Core Capabilities</span>
           </motion.div>
 
-          <motion.h2
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+          <ScrollRevealHeading
+            text="AI-Powered Ecosystem"
             className="text-4xl md:text-6xl font-display font-bold mb-6 origin-center lg:origin-left"
-          >
-            <span className="gradient-text">AI-Powered Ecosystem</span>
-          </motion.h2>
+            textClassName="gradient-text"
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
